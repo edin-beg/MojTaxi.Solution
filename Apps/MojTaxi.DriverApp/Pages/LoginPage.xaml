@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MojTaxi.DriverApp.Pages.LoginPage"
+    Title="Prijava (Vozač)">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Label Text="Prijava (Driver)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+            
+            <Picker Title="Organizacija"
+                    ItemsSource="{Binding Organisations}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedOrganisation}" />
+
+
+            <Entry Placeholder="Taxi ID" Text="{Binding TaxiId}"/>
+            <Entry Placeholder="Lozinka" Text="{Binding Password}" IsPassword="True"/>
+            <Button Text="Nastavi" Command="{Binding LoginCommand}" />
+            
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+            <Label Text="{Binding Error}" TextColor="Red" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
