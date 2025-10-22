@@ -13,6 +13,7 @@ using Polly.Extensions.Http;
 using System.Net.Http;
 using MojTaxi.ApiClient.Infrastructure;
 using Refit;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MojTaxi.ClientApp;
 
@@ -28,6 +29,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseSkiaSharp()
             .ConfigureFonts(f =>
             {
                 f.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:MojTaxi.StaticClientApp"
     Shell.FlyoutBehavior="Disabled"
     Title="MojTaxi.StaticClientApp">
+    <Shell.NavBarIsVisible>false</Shell.NavBarIsVisible>
 
     <ShellContent
         Title="Home"
