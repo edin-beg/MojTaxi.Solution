@@ -78,7 +78,9 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private async Task VerifyOtp()
     {
-        if (!CanVerifyOtp) return;
+        // ✅ Navigiraj na RegistrationPage
+        await Shell.Current.GoToAsync("//RegistrationPage");
+    /*    if (!CanVerifyOtp) return;
 
         IsBusy = true;
         Error = null;
@@ -104,6 +106,7 @@ public partial class LoginViewModel : ObservableObject
         {
             Error = "Greška pri verifikaciji OTP-a";
         }
+        */
 
         IsBusy = false;
     }

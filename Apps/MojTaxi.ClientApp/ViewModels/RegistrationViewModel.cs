@@ -40,6 +40,7 @@ public class RegistrationViewModel : ObservableObject
         // Validation + API poziv za kreiranje usera
         await App.Current.MainPage.DisplayAlert("OK", "Registracija uspješna", "OK");
 
-        await Shell.Current.GoToAsync("//MainTabsPage");
+        await Shell.Current.GoToAsync("//MainPage");
+
     }
 }

@@ -48,6 +48,14 @@
         </Setter>
     </Style>
 
+    <Style x:Key="TaxiButtonSmall" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#222222"/>
+        <Setter Property="TextColor" Value="Gray"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HeightRequest" Value="50"/>
+    </Style>
+
 
     <Style TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource AppYellow}" />
