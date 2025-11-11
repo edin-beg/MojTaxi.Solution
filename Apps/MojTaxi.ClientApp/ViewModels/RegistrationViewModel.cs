@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 
 namespace MojTaxi.ClientApp.ViewModels;
 
+using Pages;
+
 public partial class RegistrationViewModel : ObservableObject
 {
     [ObservableProperty]
@@ -39,6 +41,7 @@ public partial class RegistrationViewModel : ObservableObject
     {
         // TODO: Validacija + API poziv
 
-        await Shell.Current.GoToAsync("MainPage");
+        Application.Current.MainPage = new MainPage();
+
     }
 }

@@ -10,44 +10,79 @@
 
         <!-- 🔹 Gornji dio = MAPA -->
         <Grid Grid.Row="0">
-            <maps:Map x:Name="mapControl"
-                      MapType="Street"
+            <maps:Map x:Name="mapControl" 
+                MapType="Street"
                       IsShowingUser="True"
                       VerticalOptions="Fill"
                       HorizontalOptions="Fill" />
         </Grid>
 
         <!-- 🔹 Donji dio = custom tabovi kao buttoni -->
-        <Grid Grid.Row="1" BackgroundColor="Black"
-              ColumnDefinitions="*,*,*,*"
-              Padding="5">
+        <Grid Grid.Row="1"
+              BackgroundColor="Black"
+              Padding="12"
+              ColumnDefinitions="60,*,*,*,*"
+              VerticalOptions="End"
+              HorizontalOptions="FillAndExpand">
 
-            <Button Text="Profil"
-                    Clicked="OnTabClicked"
-                    CommandParameter="Profile"
-                    Style="{StaticResource TaxiButtonSmall}"
-                    x:Name="BtnProfile"/>
+            <!-- Hamburger -->
+            <Button x:Name="HamburgerBtn"
+                    Grid.Column="0"
+                    Text="☰"
+                    FontSize="26"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    Style="{StaticResource TaxiButton}"
+                    TextColor="Black"
+                    Clicked="ToggleMenu"/>
 
-            <Button Text="Ljubimci"
-                    Clicked="OnTabClicked"
-                    CommandParameter="Pets"
-                    Style="{StaticResource TaxiButtonSmall}"
-                    x:Name="BtnPets"
-                    Grid.Column="1"/>
+            <!-- Ostala dugmad (koja se prikazuju kada je meni otvoren) -->
+            <Grid Grid.Column="1"
+                  Grid.ColumnSpan="4"
+                  HorizontalOptions="FillAndExpand">
 
-            <Button Text="Djeca"
-                    Clicked="OnTabClicked"
-                    CommandParameter="Kids"
-                    Style="{StaticResource TaxiButtonSmall}"
-                    x:Name="BtnKids"
-                    Grid.Column="2"/>
+                <Grid x:Name="TabContainer"
+                      IsVisible="False"
+                      ColumnDefinitions="*,*,*,*"
+                      ColumnSpacing="12"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="Center">
+                    <!-- Djeca -->
+                    <Button Grid.Column="0"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xEB41;"
+                            Clicked="OnTabClicked"/>
 
-            <Button Text="Posebno"
-                    Clicked="OnTabClicked"
-                    CommandParameter="Special"
-                    Style="{StaticResource TaxiButtonSmall}"
-                    x:Name="BtnSpecial"
-                    Grid.Column="3"/>
+                    <!-- Ljubimci -->
+                    <Button Grid.Column="1"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xE91D;"
+                            Clicked="OnTabClicked"/>
+
+                    <!-- Invalidi -->
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xE914;"
+                            Clicked="OnTabClicked"/>
+
+                    <!-- Alkohol -->
+                    <Button Grid.Column="3"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xE540;"
+                            Clicked="OnTabClicked"/>
+
+
+                </Grid>
+            </Grid>
 
         </Grid>
 

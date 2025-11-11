@@ -16,7 +16,6 @@ using Refit;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MojTaxi.ClientApp;
-
 public static class MauiProgram
 {
     static IAsyncPolicy<HttpResponseMessage> RetryPolicy() =>
@@ -29,11 +28,13 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiMaps()
             .UseSkiaSharp()
             .ConfigureFonts(f =>
             {
                 f.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");  
+                f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
         // === API settings (prilagodi!) ===
@@ -62,6 +63,9 @@ public static class MauiProgram
         
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<LoginPage>();
+        
+        builder.Services.AddTransient<MainViewModel>();
+        builder.Services.AddTransient<MainPage>();
 
         return builder.Build();
     }
