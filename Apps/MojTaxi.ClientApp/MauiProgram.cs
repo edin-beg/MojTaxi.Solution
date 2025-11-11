@@ -58,6 +58,8 @@ public static class MauiProgram
         builder.Services.AddMojTaxiCore();
 
         // Pages + VM (za DI)
+        builder.Services.AddTransient<LandingPage>();
+        
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<LoginPage>();
 

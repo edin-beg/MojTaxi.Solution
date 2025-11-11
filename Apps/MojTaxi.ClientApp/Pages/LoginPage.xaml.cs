@@ -14,4 +14,21 @@ public partial class LoginPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is LoginViewModel vm)
+        {
+            vm.PropertyChanged += async (s, e) =>
+            {
+                if (e.PropertyName == nameof(vm.OtpSent) && vm.OtpSent)
+                {
+                    await Task.Delay(200);
+                    OtpEntry.Focus();
+                }
+            };
+        }
+    }
+
 }

@@ -39,6 +39,10 @@
 
     <!-- Raw Assets: keep a single definition -->
     <MauiAsset Include="Resources/Raw/**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    <None Remove="Resources\Images\logo.png" />
+    <MauiImage Include="Resources\Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </MauiImage>
   </ItemGroup>
 
   <ItemGroup>

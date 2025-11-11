@@ -3,15 +3,22 @@
     x:Class="MojTaxi.ClientApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MojTaxi.ClientApp"
     xmlns:pages="clr-namespace:MojTaxi.ClientApp.Pages"
-    Shell.FlyoutBehavior="Disabled"
-    Title="MojTaxi.ClientApp">
-    <Shell.NavBarIsVisible>false</Shell.NavBarIsVisible>
+    FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Landing"
+    <!-- Ovo se prvo otvara -->
+    <ShellContent 
+        Route="LandingPage"
         ContentTemplate="{DataTemplate pages:LandingPage}"
-        Route="LandingPage" />
+        Shell.NavBarIsVisible="False" />
+
+    <ShellContent 
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Shell.NavBarIsVisible="False" />
+    
+    <ShellContent Route="RegistrationPage"
+                  ContentTemplate="{DataTemplate pages:RegistrationPage}"
+                  Shell.NavBarIsVisible="False" />
 
 </Shell>

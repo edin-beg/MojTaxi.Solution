@@ -12,4 +12,12 @@ public partial class LandingPage : ContentPage
     {
         InitializeComponent();
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await Task.Delay(8000); // 2s splash
+        await Shell.Current.GoToAsync("//LoginPage");
+    }
 }
