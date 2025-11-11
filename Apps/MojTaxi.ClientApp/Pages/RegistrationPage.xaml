@@ -65,7 +65,7 @@
 
             <Button Text="Završi registraciju"
                     Style="{StaticResource TaxiButton}"
-                    Command="{Binding SubmitRegistrationCommand}" />
+                    Command="{Binding SubmitCommand}" />
 
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#FFD700"/>
             <Label Text="{Binding Error}" TextColor="Red" HorizontalOptions="Center"/>

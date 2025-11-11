@@ -8,7 +8,7 @@
         <Setter Property="BackgroundColor" Value="{StaticResource AppBackground}" />
     </Style>
     <Style x:Key="TaxiButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="#FFD700" />
+        <Setter Property="BackgroundColor" Value="#FEF000" />
         <Setter Property="TextColor" Value="#000000" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="HeightRequest" Value="48" />

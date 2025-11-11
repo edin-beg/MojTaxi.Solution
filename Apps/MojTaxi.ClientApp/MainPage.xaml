@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="MojTaxi.ClientApp.Pages.MainPage"
              BackgroundColor="Black"
              Shell.NavBarIsVisible="False">
@@ -9,16 +10,11 @@
 
         <!-- 🔹 Gornji dio = MAPA -->
         <Grid Grid.Row="0">
-            <Image Source="map_placeholder.png"
-                   Aspect="AspectFill"
-                   VerticalOptions="Fill"
-                   HorizontalOptions="Fill"/>
-
-            <Label Text="🗺 Mapa ovdje"
-                   TextColor="White"
-                   FontSize="22"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
+            <maps:Map x:Name="mapControl"
+                      MapType="Street"
+                      IsShowingUser="True"
+                      VerticalOptions="Fill"
+                      HorizontalOptions="Fill" />
         </Grid>
 
         <!-- 🔹 Donji dio = custom tabovi kao buttoni -->

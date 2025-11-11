@@ -30,5 +30,8 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Potrebna nam je lokacija za prikaz mape i pozicije vozila.</string>
+
 </dict>
 </plist>
