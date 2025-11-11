@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MojTaxi.ClientApp.ViewModels;
 
 namespace MojTaxi.ClientApp.Pages;
 
-using ViewModels;
-
-public partial class RegistrationPage : ContentPage {
-    public RegistrationPage()
+public partial class RegistrationPage : ContentPage
+{
+    public RegistrationPage(RegistrationViewModel vm)
     {
         InitializeComponent();
-        BindingContext = new RegistrationViewModel();
+        BindingContext = vm;
     }
 }
-

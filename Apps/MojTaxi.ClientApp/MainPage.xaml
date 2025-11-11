@@ -6,29 +6,59 @@
              BackgroundColor="Black"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="*,70">
+    <Grid RowDefinitions="Auto,*,70">
 
-        <!-- 🔹 Gornji dio = MAPA -->
-        <Grid Grid.Row="0">
+        <!-- 🔹 Gornji bar sa 2 buttona -->
+        <Grid Grid.Row="0"
+              Padding="12,16"
+              ColumnDefinitions="Auto,*,Auto"
+              BackgroundColor="Transparent">
+
+            <!-- Poziv taksija (lijevo) -->
+            <Button Grid.Column="0"
+                    Style="{StaticResource TaxiButton}"
+                    FontFamily="MaterialIcons"
+                    FontSize="26"
+                    Text="&#xE0B0;"
+                    WidthRequest="52"
+                    HeightRequest="52"
+                    CornerRadius="26"
+                    Command="{Binding CallTaxiCommand}" />
+
+            <!-- Profil (desno) -->
+            <Button Grid.Column="2"
+                    Style="{StaticResource TaxiButton}"
+                    FontFamily="MaterialIcons"
+                    FontSize="26"
+                    Text="&#xE7FD;"
+                    WidthRequest="52"
+                    HeightRequest="52"
+                    CornerRadius="26"
+                    Command="{Binding ProfileCommand}" />
+        </Grid>
+
+        <!-- 🔹 Mapa -->
+        <Grid Grid.Row="1">
             <maps:Map x:Name="mapControl" 
-                MapType="Street"
+                      MapType="Street"
                       IsShowingUser="True"
                       VerticalOptions="Fill"
                       HorizontalOptions="Fill" />
         </Grid>
 
-        <!-- 🔹 Donji dio = custom tabovi kao buttoni -->
-        <Grid Grid.Row="1"
+        <!-- 🔹 Donji tabovi -->
+        <Grid Grid.Row="2"
               BackgroundColor="Black"
               Padding="12"
               ColumnDefinitions="60,*,*,*,*"
+              ColumnSpacing="12"
               VerticalOptions="End"
               HorizontalOptions="FillAndExpand">
 
-            <!-- Hamburger -->
+            <!-- Hamburger (ne može u VM jer radi animaciju UI-a) -->
             <Button x:Name="HamburgerBtn"
                     Grid.Column="0"
-                    Text="☰"
+                    Text="|||"
                     FontSize="26"
                     WidthRequest="60"
                     HeightRequest="60"
@@ -37,7 +67,7 @@
                     TextColor="Black"
                     Clicked="ToggleMenu"/>
 
-            <!-- Ostala dugmad (koja se prikazuju kada je meni otvoren) -->
+            <!-- Ostala dugmad -->
             <Grid Grid.Column="1"
                   Grid.ColumnSpan="4"
                   HorizontalOptions="FillAndExpand">
@@ -48,13 +78,15 @@
                       ColumnSpacing="12"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="Center">
+
                     <!-- Djeca -->
                     <Button Grid.Column="0"
                             Style="{StaticResource TaxiButton}"
                             FontFamily="MaterialIcons"
                             FontSize="24"
                             Text="&#xEB41;"
-                            Clicked="OnTabClicked"/>
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Djeca"/>
 
                     <!-- Ljubimci -->
                     <Button Grid.Column="1"
@@ -62,7 +94,8 @@
                             FontFamily="MaterialIcons"
                             FontSize="24"
                             Text="&#xE91D;"
-                            Clicked="OnTabClicked"/>
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Ljubimci"/>
 
                     <!-- Invalidi -->
                     <Button Grid.Column="2"
@@ -70,7 +103,8 @@
                             FontFamily="MaterialIcons"
                             FontSize="24"
                             Text="&#xE914;"
-                            Clicked="OnTabClicked"/>
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Invalidi"/>
 
                     <!-- Alkohol -->
                     <Button Grid.Column="3"
@@ -78,9 +112,9 @@
                             FontFamily="MaterialIcons"
                             FontSize="24"
                             Text="&#xE540;"
-                            Clicked="OnTabClicked"/>
-
-
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Alkohol"/>
+                    
                 </Grid>
             </Grid>
 

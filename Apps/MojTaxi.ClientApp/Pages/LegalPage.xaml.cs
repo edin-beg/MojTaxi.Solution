@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace MojTaxi.ClientApp.Pages;
 
-public partial class PetsPage : ContentPage {
-    public PetsPage() {
+using ViewModels;
+
+public partial class LegalPage : ContentPage {
+    public LegalPage(LegalViewModel vm)
+    {
         InitializeComponent();
+        BindingContext = vm;
     }
+
 }
 

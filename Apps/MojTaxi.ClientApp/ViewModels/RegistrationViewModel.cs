@@ -6,9 +6,12 @@ using System.Collections.ObjectModel;
 namespace MojTaxi.ClientApp.ViewModels;
 
 using Pages;
+using Services;
 
 public partial class RegistrationViewModel : ObservableObject
 {
+    private readonly INavigationService _nav;
+    
     [ObservableProperty]
     private string firstName;
 
@@ -24,7 +27,10 @@ public partial class RegistrationViewModel : ObservableObject
     [ObservableProperty]
     private ImageSource profileImage;
 
-    public RegistrationViewModel() { }
+    public RegistrationViewModel(INavigationService nav)
+    {
+        _nav = nav;
+    }
 
     [RelayCommand]
     private async Task PickImage()
@@ -41,7 +47,7 @@ public partial class RegistrationViewModel : ObservableObject
     {
         // TODO: Validacija + API poziv
 
-        Application.Current.MainPage = new MainPage();
+        await _nav.GoToAsync(nameof(MainPage));
 
     }
 }

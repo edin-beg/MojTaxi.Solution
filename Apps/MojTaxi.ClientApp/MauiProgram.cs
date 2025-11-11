@@ -16,6 +16,7 @@ using Refit;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MojTaxi.ClientApp;
+
 public static class MauiProgram
 {
     static IAsyncPolicy<HttpResponseMessage> RetryPolicy() =>
@@ -37,35 +38,54 @@ public static class MauiProgram
                 f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
-        // === API settings (prilagodi!) ===
+        // === API settings ===
         var settings = new ApiSettings
         {
-            BaseUrl    = "https://ssl.irget.se", // <-- promijeni ako treba
+            BaseUrl    = "https://ssl.irget.se",
             Version    = "V5",
             BuildNumber= "185",
             AppVersion = "1.3.1"
         };
         builder.Services.AddSingleton(settings);
 
-        // Storage
+        // Storage & Core
         builder.Services.AddSingleton<ISessionStore, SecureStorageSessionStore>();
+        builder.Services.AddMojTaxiCore();
 
-        // Refit klijenti
+        // Refit API clients
         builder.Services.AddRefitClient<IClientsApi>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(settings.BaseUrl))
             .AddPolicyHandler(RetryPolicy());
 
-        // Core servisi
-        builder.Services.AddMojTaxiCore();
+        // Navigation Service
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
+        builder.Services.AddSingleton<AppShell>();
 
-        // Pages + VM (za DI)
-        builder.Services.AddTransient<LandingPage>();
-        
-        builder.Services.AddTransient<LoginViewModel>();
-        builder.Services.AddTransient<LoginPage>();
-        
+        // ✅ All ViewModels as Transient
         builder.Services.AddTransient<MainViewModel>();
+        builder.Services.AddTransient<ProfileViewModel>();
+        builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<RegistrationViewModel>();
+        builder.Services.AddTransient<RideHistoryViewModel>();
+        builder.Services.AddTransient<PaymentViewModel>();
+        builder.Services.AddTransient<ChangePasswordViewModel>();
+        builder.Services.AddTransient<SettingsViewModel>();
+        builder.Services.AddTransient<LegalViewModel>();
+
+        // ✅ Pages as Transient
+        builder.Services.AddTransient<LandingPage>();
+        builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<RegistrationPage>();
         builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<ProfilePage>();
+        builder.Services.AddTransient<RideHistoryPage>();
+        builder.Services.AddTransient<PaymentPage>();
+        builder.Services.AddTransient<ChangePasswordPage>();
+        builder.Services.AddTransient<SettingsPage>();
+        builder.Services.AddTransient<LegalPage>();
+
+        // ✅ Register AppShell so DI can inject it if needed
+        builder.Services.AddSingleton<AppShell>();
 
         return builder.Build();
     }

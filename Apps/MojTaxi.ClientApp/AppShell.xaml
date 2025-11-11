@@ -6,7 +6,7 @@
     xmlns:pages="clr-namespace:MojTaxi.ClientApp.Pages"
     FlyoutBehavior="Disabled">
 
-    <!-- Ovo se prvo otvara -->
+    <!-- Startne stranice -->
     <ShellContent 
         Route="LandingPage"
         ContentTemplate="{DataTemplate pages:LandingPage}"
@@ -16,9 +16,10 @@
         Route="LoginPage"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Shell.NavBarIsVisible="False" />
-    
-    <ShellContent Route="RegistrationPage"
-                  ContentTemplate="{DataTemplate pages:RegistrationPage}"
-                  Shell.NavBarIsVisible="False" />
+
+    <ShellContent 
+        Route="RegistrationPage"
+        ContentTemplate="{DataTemplate pages:RegistrationPage}"
+        Shell.NavBarIsVisible="False" />
 
 </Shell>

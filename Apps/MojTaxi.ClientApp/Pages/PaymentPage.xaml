@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MojTaxi.ClientApp.ViewModels"
+             xmlns:converters="clr-namespace:MojTaxi.ClientApp.Converters"
+             x:Class="MojTaxi.ClientApp.Pages.PaymentPage"
+             x:Name="ThisPage"
+             Title="Plaćanja"
+             BackgroundColor="#0B1120">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToDefaultTextConverter x:Key="BoolToDefaultTextConverter" />
+            <converters:BoolToDefaultColorConverter x:Key="BoolToDefaultColorConverter" />
+            <converters:BoolToDefaultBgConverter x:Key="BoolToDefaultBgConverter" />
+            <converters:BoolToDefaultTextColorConverter x:Key="BoolToDefaultTextColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <vm:PaymentViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20" Spacing="16">
+
+        <Label Text="Sačuvane kartice"
+               TextColor="White"
+               FontSize="20"
+               FontAttributes="Bold" />
+
+        <CollectionView ItemsSource="{Binding Cards}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedCard, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="12"
+                           Padding="12"
+                           BackgroundColor="#111827"
+                           HasShadow="True"
+                           Margin="0,6">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center">
+                            <!-- Brand icon + name -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="6" HorizontalOptions="Start">
+                                <Label Text="{Binding BrandIcon}"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="28"
+                                       TextColor="#FEF000"
+                                       HorizontalOptions="Center" />
+                                <Label Text="{Binding BrandName}"
+                                       FontSize="10"
+                                       TextColor="#9CA3AF"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+
+                            <!-- Card info -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label Text="{Binding MaskedNumber}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       FontFamily="Consolas" />
+                                <HorizontalStackLayout Spacing="12">
+                                    <Label Text="{Binding CardHolder}" FontSize="12" TextColor="#9CA3AF"/>
+                                    <Label Text="•" TextColor="#374151" />
+                                    <Label Text="{Binding Expiry}" FontSize="12" TextColor="#9CA3AF"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+
+                            <!-- Actions: default / delete -->
+                            <VerticalStackLayout Grid.Column="2" Spacing="6" HorizontalOptions="End" VerticalOptions="Center">
+                                <Button Text="{Binding IsDefault, Converter={StaticResource BoolToDefaultTextConverter}}"
+                                        FontSize="12"
+                                        Padding="6,4"
+                                        CornerRadius="8"
+                                        BackgroundColor="{Binding IsDefault, Converter={StaticResource BoolToDefaultBgConverter}}"
+                                        TextColor="{Binding IsDefault, Converter={StaticResource BoolToDefaultTextColorConverter}}"
+                                        Command="{Binding Path=BindingContext.SetDefaultCommand, Source={x:Reference Name=ThisPage}}"
+                                        CommandParameter="{Binding .}" />
+
+                                <Button Text="Obriši"
+                                        FontSize="12"
+                                        Padding="6,4"
+                                        CornerRadius="8"
+                                        BackgroundColor="#2B2B2B"
+                                        TextColor="White"
+                                        Command="{Binding Path=BindingContext.DeleteCardCommand, Source={x:Reference Name=ThisPage}}"
+                                        CommandParameter="{Binding .}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="+ Dodaj karticu"
+                Command="{Binding AddPaymentMethodCommand}"
+                BackgroundColor="#FEF000"
+                TextColor="Black"
+                CornerRadius="10"
+                HeightRequest="48"/>
+    </VerticalStackLayout>
+</ContentPage>

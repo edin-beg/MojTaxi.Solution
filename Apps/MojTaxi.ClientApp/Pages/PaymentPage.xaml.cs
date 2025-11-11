@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace MojTaxi.ClientApp.Pages;
 
-public partial class SpecialPage : ContentPage {
-    public SpecialPage() {
+using ViewModels;
+
+public partial class PaymentPage : ContentPage {
+    public PaymentPage(PaymentViewModel vm)
+    {
         InitializeComponent();
+        BindingContext = vm;
     }
+
+
 }
 
