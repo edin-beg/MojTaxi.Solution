@@ -28,13 +28,21 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiApp<App>()
+            .UseMauiApp<App>().ConfigureMauiHandlers(handlers =>
+            {
+#if IOS
+                Microsoft.Maui.Handlers.PageHandler.Mapper.AppendToMapping("SafeArea", (handler, view) =>
+                {
+                    handler.PlatformView.InsetsLayoutMarginsFromSafeArea = false;
+                });
+#endif
+            })
             .UseMauiMaps()
             .UseSkiaSharp()
             .ConfigureFonts(f =>
             {
                 f.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");  
+                f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 

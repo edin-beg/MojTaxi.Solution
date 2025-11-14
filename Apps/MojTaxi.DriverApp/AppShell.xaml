@@ -5,8 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MojTaxi.DriverApp"
     Shell.FlyoutBehavior="Disabled"
-    Title="MojTaxi.DriverApp">
-    <Shell.NavBarIsVisible>false</Shell.NavBarIsVisible>
+    Title="MojTaxi.DriverApp"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
 
     <ShellContent
         Title="Home"
