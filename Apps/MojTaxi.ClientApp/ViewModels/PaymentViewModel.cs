@@ -33,7 +33,6 @@ public partial class PaymentViewModel : ObservableObject
         };
     }
 
-    // kolekcija kartica za binding
     public ObservableCollection<PaymentCard> Cards { get; }
 
     [ObservableProperty]
@@ -42,8 +41,9 @@ public partial class PaymentViewModel : ObservableObject
     [RelayCommand]
     private async Task AddPaymentMethod()
     {
-        // samo dummy poruka za sada
-        await Application.Current.MainPage.DisplayAlert("Dodaj karticu", "Otvara se forma za dodavanje kartice (dummy).", "OK");
+        var page = Application.Current?.Windows[0].Page;
+        if (page != null)
+            await page.DisplayAlertAsync("Dodaj karticu", "Otvara se forma za dodavanje kartice (dummy).", "OK");
     }
 
     [RelayCommand]
@@ -51,7 +51,10 @@ public partial class PaymentViewModel : ObservableObject
     {
         if (card is null) return;
 
-        bool ok = await Application.Current.MainPage.DisplayAlert(
+        var page = Application.Current?.Windows[0].Page;
+        if (page == null) return;
+
+        bool ok = await page.DisplayAlertAsync(
             "Brisanje kartice",
             $"Da li želiš obrisati karticu {card.MaskedNumber} ?",
             "Da",
@@ -61,11 +64,9 @@ public partial class PaymentViewModel : ObservableObject
 
         Cards.Remove(card);
 
-        // ako je bila default, postavi prvu kao default
         if (card.IsDefault && Cards.Any())
         {
             Cards[0].IsDefault = true;
-            // notifikacija ručno ako treba (simple approach)
             SelectedCard = Cards[0];
         }
     }

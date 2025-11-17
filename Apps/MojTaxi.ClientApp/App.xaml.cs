@@ -9,7 +9,11 @@ public partial class App : Application
     public App(IServiceProvider provider)
     {
         InitializeComponent();
-        MainPage = new AppShell(provider);
         Services = provider;
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(new AppShell(Services!));
     }
 }

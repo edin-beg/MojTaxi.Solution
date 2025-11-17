@@ -11,16 +11,17 @@ public partial class LoginViewModel : ObservableObject
     private readonly MojTaxi.ApiClient.ApiSettings _settings;
 
     [ObservableProperty] 
-    List<OrganisationDto> organisations = new();
+    List<MojTaxi.ApiClient.Dtos.OrganisationDto> organisations = new();
 
     [ObservableProperty] 
-    OrganisationDto? selectedOrganisation;
+    MojTaxi.ApiClient.Dtos.OrganisationDto? selectedOrganisation;
+
 
     [ObservableProperty] 
-    string taxiId = "";
+    string taxiId = string.Empty;
 
     [ObservableProperty] 
-    string password = "";
+    string password = string.Empty;
 
     [ObservableProperty] 
     bool isBusy;
@@ -43,8 +44,14 @@ public partial class LoginViewModel : ObservableObject
             var orgs = await _auth.GetOrganisationsAsync();
             Organisations = orgs.ToList();
         }
-        catch (Exception ex) { Error = ex.Message; }
-        finally { IsBusy = false; }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
@@ -63,14 +70,27 @@ public partial class LoginViewModel : ObservableObject
 
             var deviceId = "drv-" + Guid.NewGuid().ToString("N").Substring(0, 6);
             var res = await _auth.LoginAsync(
-                TaxiId, Password, deviceId,
+                TaxiId,
+                Password,
+                deviceId,
                 SelectedOrganisation.OrganisationId,
-                _settings.AppVersion, _settings.BuildNumber);
+                _settings.AppVersion,
+                _settings.BuildNumber);
 
-            await Application.Current!.MainPage!.DisplayAlert("OK", $"Driver session: {res.SessionId}", "Super");
-            await Shell.Current?.Navigation.PopToRootAsync()!;
+            var page = Application.Current?.Windows[0].Page;
+
+            if (page != null)
+                await page.DisplayAlertAsync("OK", $"Driver session: {res.SessionId}", "Super");
+
+            await AppShell.Current!.Navigation.PopToRootAsync();
         }
-        catch (Exception ex) { Error = ex.Message; }
-        finally { IsBusy = false; }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 }

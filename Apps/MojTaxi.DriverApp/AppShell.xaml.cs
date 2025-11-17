@@ -2,7 +2,7 @@
 
 public partial class AppShell : Shell
 {
-    public AppShell()
+    public AppShell(IServiceProvider serviceProvider)
     {
         InitializeComponent();
         Routing.RegisterRoute("MainPage", typeof(MainPage));

@@ -12,8 +12,9 @@ namespace MojTaxi.ClientApp.ViewModels
     using Services;
 
     public partial class MainViewModel : ObservableObject
-    {private readonly INavigationService _nav;
-        
+    {
+        private readonly INavigationService _nav;
+
         [ObservableProperty]
         private Location? currentLocation;
 
@@ -30,7 +31,9 @@ namespace MojTaxi.ClientApp.ViewModels
                 await CheckPermissions();
 
                 var location = await Geolocation.GetLastKnownLocationAsync()
-                               ?? await Geolocation.GetLocationAsync();
+                               ?? await Geolocation.GetLocationAsync(new GeolocationRequest(
+                                    GeolocationAccuracy.High, 
+                                    TimeSpan.FromSeconds(10)));
 
                 if (location != null)
                 {
@@ -46,21 +49,22 @@ namespace MojTaxi.ClientApp.ViewModels
         [RelayCommand]
         private Task CallTaxi()
         {
-            return App.Current?.MainPage?.DisplayAlert("Taxi", "Poziv taksija kliknut", "OK")
+            var page = Application.Current?.Windows[0].Page;
+            return page?.DisplayAlertAsync("Taxi", "Poziv taksija kliknut", "OK")
                    ?? Task.CompletedTask;
         }
-        
+
         [RelayCommand]
         private Task Profile()
         {
             return _nav.GoToAsync(nameof(ProfilePage));
         }
 
-
         [RelayCommand]
         private Task TabClicked(string tabName)
         {
-            return App.Current?.MainPage?.DisplayAlert("Tab", $"Otvorio si: {tabName}", "OK")
+            var page = Application.Current?.Windows[0].Page;
+            return page?.DisplayAlertAsync("Tab", $"Otvorio si: {tabName}", "OK")
                    ?? Task.CompletedTask;
         }
 

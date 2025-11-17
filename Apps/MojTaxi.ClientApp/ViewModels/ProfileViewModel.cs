@@ -17,13 +17,11 @@ public partial class ProfileViewModel : ObservableObject
         BuildMenuItems();
     }
 
-    // ⬇️ Bindable UI fields
-    [ObservableProperty] private string fullName;
-    [ObservableProperty] private string phoneNumber;
-    [ObservableProperty] private string email;
-    [ObservableProperty] private ImageSource profileImage;
+    [ObservableProperty] private string fullName = string.Empty;
+    [ObservableProperty] private string phoneNumber = string.Empty;
+    [ObservableProperty] private string email = string.Empty;
+    [ObservableProperty] private ImageSource? profileImage;
 
-    // ⬇️ Data za CollectionView listu
     public ObservableCollection<ProfileItem> Items { get; } = new();
 
     private void BuildMenuItems()
@@ -35,48 +33,45 @@ public partial class ProfileViewModel : ObservableObject
         Items.Add(new ProfileItem("Pravne informacije", "\uE88F", nameof(LegalPage)));
     }
 
-    // ✅ Binding koji poziva navigaciju kad klikneš item
     public async Task NavigateTo(ProfileItem item)
     {
         if (item is null) return;
         await _nav.GoToAsync(item.Route);
     }
 
-    // ✅ Logout
     [RelayCommand]
     private async Task Logout()
     {
-        // kasnije brisanje session tokena
         await _nav.GoToAsync($"///{nameof(LoginPage)}");
     }
 
-    // ✅ Delete profile / GDPR
     [RelayCommand]
     private async Task DeleteAccount()
     {
-        bool confirm = await Shell.Current.DisplayAlert(
+        var page = Application.Current?.Windows[0].Page;
+        if (page == null) return;
+
+        bool confirm = await page.DisplayAlertAsync(
             "Potvrda",
             "Da li sigurno želiš obrisati svoj profil (GDPR)?",
             "Obriši",
-            "Odustani"
-        );
+            "Odustani");
 
         if (confirm)
         {
-            // TODO: API DELETE poziv
-            await Shell.Current.DisplayAlert("Obrisano", "Profil je obrisan.", "OK");
+            // api call kasnije
+            await page.DisplayAlertAsync("Obrisano", "Profil je obrisan.", "OK");
             await _nav.GoToAsync($"///{nameof(LoginPage)}");
         }
     }
 
-    // ✅ Placeholder loading (kasnije iz API-a)
     public async Task LoadProfileAsync()
     {
         FullName = "Edin Begović";
         PhoneNumber = "+387 61 000 000";
         Email = "edin@example.com";
 
-        ProfileImage = ImageSource.FromUri(new Uri("https://images.unsplash.com/photo-1728577740843-5f29c7586afe?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1160"));
+        ProfileImage = ImageSource.FromUri(new Uri("https://images.unsplash.com/photo-1728577740843-5f29c7586afe?auto=format&fit=crop&q=80&w=1160"));
     }
 }
 
