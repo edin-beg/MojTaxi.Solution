@@ -1,6 +1,7 @@
 ﻿using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 using MojTaxi.ClientApp.ViewModels;
+using UIKit;
 
 namespace MojTaxi.ClientApp.Pages;
 
@@ -13,6 +14,11 @@ public partial class MainPage : ContentPage
     public MainPage(MainViewModel vm)
     {
         InitializeComponent();
+        
+#if IOS
+        this.SafeAreaEdges = Microsoft.Maui.SafeAreaEdges.None;
+#endif
+
         BindingContext = _vm = vm;
 
         Loaded += async (_, __) =>

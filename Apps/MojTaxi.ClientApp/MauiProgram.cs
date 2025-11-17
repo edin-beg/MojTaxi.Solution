@@ -14,6 +14,7 @@ using System.Net.Http;
 using MojTaxi.ApiClient.Infrastructure;
 using Refit;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using UIKit;
 
 namespace MojTaxi.ClientApp;
 
@@ -28,15 +29,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiApp<App>().ConfigureMauiHandlers(handlers =>
-            {
-#if IOS
-                Microsoft.Maui.Handlers.PageHandler.Mapper.AppendToMapping("SafeArea", (handler, view) =>
-                {
-                    handler.PlatformView.InsetsLayoutMarginsFromSafeArea = false;
-                });
-#endif
-            })
+            .UseMauiApp<App>()
             .UseMauiMaps()
             .UseSkiaSharp()
             .ConfigureFonts(f =>
@@ -45,6 +38,26 @@ public static class MauiProgram
                 f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
+        builder.ConfigureMauiHandlers(handlers =>
+        {
+#if IOS
+            Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping("SafeAreaFix", (handler, view) =>
+            {
+                var window = handler.PlatformView;
+                if (window is UIWindow uiWindow)
+                {
+                    var controller = uiWindow.RootViewController;
+                    if (controller != null)
+                    {
+                        controller.EdgesForExtendedLayout = UIRectEdge.All;
+                        controller.ExtendedLayoutIncludesOpaqueBars = true;
+                        controller.AutomaticallyAdjustsScrollViewInsets = false;
+                    }
+                }
+            });
+#endif
+        });
+
 
         // === API settings ===
         var settings = new ApiSettings
