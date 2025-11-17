@@ -1,8 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 using MojTaxi.ClientApp.ViewModels;
-using UIKit;
-
 namespace MojTaxi.ClientApp.Pages;
 
 public partial class MainPage : ContentPage
