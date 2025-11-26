@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MojTaxi.Client.Pages.SettingsPage"
+             Title="Postavke" BackgroundColor="Black">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <HorizontalStackLayout>
+            <Label Text="Dark mode" TextColor="White" FontSize="18"/>
+            <Switch IsToggled="{Binding IsDarkMode}" Margin="20,0,0,0"/>
+        </HorizontalStackLayout>
+
+        <Label Text="Jezik" TextColor="White" FontSize="18"/>
+        <Picker ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
+
+        <Button Text="Sačuvaj" Command="{Binding SaveSettingsCommand}" Style="{StaticResource TaxiButton}"/>
+    </VerticalStackLayout>
+</ContentPage>

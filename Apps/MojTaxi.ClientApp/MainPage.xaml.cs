@@ -1,4 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Maps;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Maps;
 using MojTaxi.ClientApp.ViewModels;
 namespace MojTaxi.ClientApp.Pages;
@@ -8,15 +10,15 @@ public partial class MainPage : ContentPage
     private readonly MainViewModel _vm;
     private Pin? userPin;
 
-    // ✅ MainViewModel sada dolazi iz DI
+    // MainViewModel sada dolazi iz DI
     public MainPage(MainViewModel vm)
     {
         InitializeComponent();
-        
+
 #if IOS
         this.SafeAreaEdges = Microsoft.Maui.SafeAreaEdges.None;
 #endif
-
+        var insets = On<iOS>().SafeAreaInsets();
         BindingContext = _vm = vm;
 
         Loaded += async (_, __) =>
@@ -68,4 +70,5 @@ public partial class MainPage : ContentPage
             TabContainer.IsVisible = false;
         }
     }
+  
 }

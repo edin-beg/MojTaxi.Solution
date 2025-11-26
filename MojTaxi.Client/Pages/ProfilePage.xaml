@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MojTaxi.Client.Pages.ProfilePage"
+             Shell.NavBarIsVisible="True"
+             BackgroundColor="#0B1120"
+             Title="Profil">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="25,35">
+
+            <!-- Profilna slika -->
+            <Frame WidthRequest="120"
+                   HeightRequest="120"
+                   CornerRadius="60"
+                   HorizontalOptions="Center"
+                   Padding="0"
+                   BackgroundColor="#111728">
+                <Image Source="{Binding ProfileImage}" Aspect="AspectFill"/>
+            </Frame>
+
+            <Label Text="{Binding FullName}"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            <Label Text="{Binding PhoneNumber}"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            <Label Text="{Binding Email}"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            <!-- Lista -->
+            <CollectionView ItemsSource="{Binding Items}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnItemSelected">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid x:Name="ItemRoot"
+                              ColumnDefinitions="Auto,*,Auto"
+                              HeightRequest="60"
+                              ColumnSpacing="10"
+                              Padding="10"
+                              BackgroundColor="Transparent">
+
+                            <Label x:Name="LabelIcon"
+                                   Grid.Column="0"
+                                   FontFamily="MaterialIcons"
+                                   Text="{Binding Icon}"
+                                   FontSize="28"
+                                   TextColor="White"
+                                   VerticalOptions="Center"/>
+
+                            <Label x:Name="LabelTitle"
+                                   Grid.Column="1"
+                                   Text="{Binding Title}"
+                                   TextColor="White"
+                                   FontSize="18"
+                                   VerticalOptions="Center"/>
+
+                            <Label x:Name="LabelArrow"
+                                   Grid.Column="2"
+                                   FontFamily="MaterialIcons"
+                                   Text="&#xE5CC;"
+                                   FontSize="26"
+                                   TextColor="#8A99B2"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!-- Logout -->
+            <Button Text="Odjavi se"
+                    Command="{Binding LogoutCommand}"
+                    TextColor="White"
+                    BackgroundColor="#cf7406"
+                    CornerRadius="8"
+                    Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

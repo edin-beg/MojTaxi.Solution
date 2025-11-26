@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MojTaxi.Client.Pages.LandingPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             BackgroundColor="Black">
+    <Grid>
+        <!-- Pozadina (univerzalni PNG) -->
+        <Image Source="mt1440x3200.png"
+               Aspect="AspectFill"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill" />
+
+        <!-- blagi overlay za kontrast teksta -->
+        <BoxView Opacity="0.2"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Fill"
+                 BackgroundColor="Black" />
+            <Grid>
+                <skia:SKLottieView
+                    Source="mtLPFull.json"
+                    RepeatCount="0"
+                    HeightRequest="900"
+                    WidthRequest="400"
+                    HorizontalOptions="Center" />    
+            </Grid>
+    </Grid>
+</ContentPage>

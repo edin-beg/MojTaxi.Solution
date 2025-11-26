@@ -1,5 +1,6 @@
 ﻿namespace MojTaxi.ClientApp;
 
+using Microsoft.Maui;
 using Pages;
 
 public partial class AppShell : Shell

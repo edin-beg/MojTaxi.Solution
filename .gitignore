@@ -1,5 +1,58 @@
+# Build outputs
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+**/bin/
+**/obj/
+
+# MAUI intermediate
+**/platforms/android/app/build/
+**/platforms/ios/build/
+
+# User-specific
+*.user
+*.suo
+*.userprefs
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Visual Studio Cache
+.vs/
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.iml
+*.iws
+out/
+
+# Android / Gradle
+.gradle/
+local.properties
+*.class
+*.log
+*.keystore
+
+# Xcode / iOS
+xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# NuGet
+packages/
+*.nupkg
+.nuget/
+
+# File indexes
+*.vsidx
+FileContentIndex/
+
+# Logs
+*.log
+
+# Temporary
+temp/
+*.tmp
+
+# Rider secondary indexing files
+.idea/.idea.*

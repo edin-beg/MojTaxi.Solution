@@ -11,11 +11,5 @@ namespace MojTaxi.StaticClientApp;
 
 public class MainActivity : MauiAppCompatActivity
 {
-    protected override void OnCreate(Bundle savedInstanceState)
-    {
-        base.OnCreate(savedInstanceState);
 
-        Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
-        Window.AddFlags(WindowManagerFlags.LayoutNoLimits);
-    }
 }

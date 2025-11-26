@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage SafeAreaEdges="None"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MojTaxi.Client.Pages.LoginPage"
+             BackgroundColor="#000000"
+             Shell.NavBarIsVisible="False">
+
+    <!-- ScrollView mora imati ISTU pozadinu inače ostane bijela -->
+    <ScrollView BackgroundColor="#000000">
+
+        <!-- Layout također mora imati crnu pozadinu -->
+        <VerticalStackLayout Padding="24"
+                             Spacing="18"
+                             BackgroundColor="#000000"
+                             VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand"
+                             MaximumWidthRequest="500">
+
+            <!-- LOGO -->
+            <Image Source="logo.png"
+                   HeightRequest="120"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Prijava putem SMS"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <!-- Country Picker -->
+            <Picker Title="Odaberi državu"
+                    ItemsSource="{Binding Countries}"
+                    SelectedItem="{Binding SelectedCountry}"
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    BackgroundColor="#1A1A1A"
+                    TextColor="White"
+                    TitleColor="#777777"
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"/>
+
+            <!-- Phone input -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+
+                <Entry Text="{Binding SelectedCountry.Code}"
+                       IsEnabled="False"
+                       WidthRequest="85"
+                       BackgroundColor="#1A1A1A"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"/>
+
+                <Entry Grid.Column="1"
+                       Placeholder="Broj telefona"
+                       Text="{Binding PhoneNumber}"
+                       Keyboard="Telephone"
+                       BackgroundColor="#1A1A1A"
+                       TextColor="White"
+                       PlaceholderColor="#777777"/>
+            </Grid>
+
+            <!-- SEND OTP -->
+            <!--        <Button Text="Pošalji OTP"
+                    Command="{Binding SendOtpCommand}"
+                    IsEnabled="{Binding CanSendOtp}"
+                    Style="{StaticResource TaxiButton}" />-->
+            <Button Text="Pošalji OTP"
+                    Command="{Binding VerifyOtpCommand}"
+                    Style="{StaticResource TaxiButton}" />
+            
+            
+
+            <!-- OTP SECTION -->
+            <VerticalStackLayout x:Name="OtpBlock"
+                                 IsVisible="{Binding OtpSent}"
+                                 Spacing="12">
+
+                <Entry x:Name="OtpEntry"
+                       Placeholder="Unesite OTP kod"
+                       Text="{Binding OtpCode}"
+                       Keyboard="Numeric"
+                       FontSize="20"
+                       BackgroundColor="#1A1A1A"
+                       TextColor="White"
+                       PlaceholderColor="#777777"
+                       HorizontalTextAlignment="Center"/>
+
+                <Button Text="Potvrdi i prijavi se"
+                        Command="{Binding VerifyOtpCommand}"
+                        IsEnabled="{Binding CanVerifyOtp}"
+                        Style="{StaticResource TaxiButton}" />
+
+                <!-- Resend Timer -->
+                <Button Text="{Binding OtpCooldown, StringFormat='Pošalji ponovo za {0}s'}"
+                        Command="{Binding SendOtpCommand}"
+                        IsEnabled="{Binding CanResendOtp}"
+                        BackgroundColor="Transparent"
+                        TextColor="#FFD700"
+                        FontAttributes="Bold" />
+            </VerticalStackLayout>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#FFD700"/>
+
+            <Label Text="{Binding Error}" TextColor="Red" HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

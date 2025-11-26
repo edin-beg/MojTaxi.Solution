@@ -1,0 +1,78 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MojTaxi.Client.Services;
+using MojTaxi.Client.Pages;
+using System.Collections.ObjectModel;
+
+namespace MojTaxi.Client.ViewModels;
+
+public partial class ProfileViewModel : ObservableObject
+{
+    private readonly INavigationService _nav;
+
+    public ProfileViewModel(INavigationService nav)
+    {
+        _nav = nav;
+        LoadProfileAsync();
+        BuildMenuItems();
+    }
+
+    [ObservableProperty] private string fullName = string.Empty;
+    [ObservableProperty] private string phoneNumber = string.Empty;
+    [ObservableProperty] private string email = string.Empty;
+    [ObservableProperty] private ImageSource? profileImage;
+
+    public ObservableCollection<ProfileItem> Items { get; } = new();
+
+    private void BuildMenuItems()
+    {
+        Items.Add(new ProfileItem("Plaćanje", "\uE8CB", nameof(PaymentPage)));
+        Items.Add(new ProfileItem("Valuta i jezik", "\uE894", nameof(SettingsPage)));
+        Items.Add(new ProfileItem("Postavke", "\uE8B8", nameof(SettingsPage)));
+        Items.Add(new ProfileItem("Podrška", "\uE8F6", nameof(LegalPage)));
+        Items.Add(new ProfileItem("Pravne informacije", "\uE88F", nameof(LegalPage)));
+    }
+
+    public async Task NavigateTo(ProfileItem item)
+    {
+        if (item is null) return;
+        await _nav.GoToAsync(item.Route);
+    }
+
+    [RelayCommand]
+    private async Task Logout()
+    {
+        await _nav.GoToAsync($"///{nameof(LoginPage)}");
+    }
+
+    [RelayCommand]
+    private async Task DeleteAccount()
+    {
+        var page = Application.Current?.Windows[0].Page;
+        if (page == null) return;
+
+        bool confirm = await page.DisplayAlertAsync(
+            "Potvrda",
+            "Da li sigurno želiš obrisati svoj profil (GDPR)?",
+            "Obriši",
+            "Odustani");
+
+        if (confirm)
+        {
+            // api call kasnije
+            await page.DisplayAlertAsync("Obrisano", "Profil je obrisan.", "OK");
+            await _nav.GoToAsync($"///{nameof(LoginPage)}");
+        }
+    }
+
+    public async Task LoadProfileAsync()
+    {
+        FullName = "Edin Begović";
+        PhoneNumber = "+387 61 000 000";
+        Email = "edin@example.com";
+
+        ProfileImage = ImageSource.FromUri(new Uri("https://images.unsplash.com/photo-1728577740843-5f29c7586afe?auto=format&fit=crop&q=80&w=1160"));
+    }
+}
+
+public record ProfileItem(string Title, string Icon, string Route);

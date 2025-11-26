@@ -3,23 +3,24 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="MojTaxi.ClientApp.Pages.MainPage"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="Transparent">
+             BackgroundColor="Transparent"
+             SafeAreaEdges="SoftInput">
 
-   <Grid Padding="12,0,12,0">
-    <!-- MAPA FULLSCREEN -->
-    <maps:Map x:Name="mapControl"
+    <Grid Padding="12,0,12,0">
+        <!-- MAPA FULLSCREEN -->
+        <maps:Map x:Name="mapControl"
               MapType="Street"
               IsShowingUser="True"
               VerticalOptions="Fill"
               HorizontalOptions="Fill" />
 
-    <!-- Gornji buttons overlay -->
-    <Grid Padding="12,60,12,0"
+        <!-- Gornji buttons overlay -->
+        <Grid Padding="12,60,12,0"
           ColumnDefinitions="Auto,*,Auto"
           HorizontalOptions="Fill"
           VerticalOptions="Start">
-        
-        <Button Grid.Column="0"
+
+            <Button Grid.Column="0"
                 Style="{StaticResource TaxiButton}"
                 FontFamily="MaterialIcons"
                 FontSize="26"
@@ -29,7 +30,7 @@
                 CornerRadius="26"
                 Command="{Binding CallTaxiCommand}" />
 
-        <Button Grid.Column="2"
+            <Button Grid.Column="2"
                 Style="{StaticResource TaxiButton}"
                 FontFamily="MaterialIcons"
                 FontSize="26"
@@ -38,16 +39,16 @@
                 HeightRequest="52"
                 CornerRadius="26"
                 Command="{Binding ProfileCommand}" />
-    </Grid>
+        </Grid>
 
-    <!-- Donji buttons overlay -->
-    <Grid Padding="12,0,12,60"
+        <!-- Donji buttons overlay -->
+        <Grid Padding="12,0,12,60"
           ColumnDefinitions="60,*,*,*,*"
           ColumnSpacing="12"
           HorizontalOptions="Fill"
           VerticalOptions="End">
 
-        <Button x:Name="HamburgerBtn"
+            <Button x:Name="HamburgerBtn"
                 Grid.Column="0"
                 Text="|||"
                 FontSize="26"
@@ -58,43 +59,43 @@
                 TextColor="Black"
                 Clicked="ToggleMenu" />
 
-        <Grid Grid.Column="1"
+            <Grid Grid.Column="1"
               Grid.ColumnSpan="4"
               ColumnDefinitions="*,*,*,*"
               ColumnSpacing="12"
               IsVisible="False"
               x:Name="TabContainer">
 
-            <Button Grid.Column="0"
+                <Button Grid.Column="0"
                     Style="{StaticResource TaxiButton}"
                     FontFamily="MaterialIcons"
                     FontSize="24"
                     Text="&#xEB41;"
                     Command="{Binding TabClickedCommand}"
                     CommandParameter="Djeca" />
-            <Button Grid.Column="1"
+                <Button Grid.Column="1"
                     Style="{StaticResource TaxiButton}"
                     FontFamily="MaterialIcons"
                     FontSize="24"
                     Text="&#xE91D;"
                     Command="{Binding TabClickedCommand}"
                     CommandParameter="Ljubimci" />
-            <Button Grid.Column="2"
+                <Button Grid.Column="2"
                     Style="{StaticResource TaxiButton}"
                     FontFamily="MaterialIcons"
                     FontSize="24"
                     Text="&#xE914;"
                     Command="{Binding TabClickedCommand}"
                     CommandParameter="Invalidi" />
-            <Button Grid.Column="3"
+                <Button Grid.Column="3"
                     Style="{StaticResource TaxiButton}"
                     FontFamily="MaterialIcons"
                     FontSize="24"
                     Text="&#xE540;"
                     Command="{Binding TabClickedCommand}"
                     CommandParameter="Alkohol" />
+            </Grid>
         </Grid>
     </Grid>
-</Grid>
 
 </ContentPage>

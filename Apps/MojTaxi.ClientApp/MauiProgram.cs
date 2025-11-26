@@ -38,7 +38,6 @@ public static class MauiProgram
                 f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
-
         // === API settings ===
         var settings = new ApiSettings
         {

@@ -6,7 +6,7 @@ namespace MojTaxi.ClientApp.Converters
 {
     public class BoolToDefaultTextColorConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool isDefault && isDefault)
                 return Colors.Black;
@@ -14,7 +14,7 @@ namespace MojTaxi.ClientApp.Converters
             return Colors.White;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
             => false;
     }
 }
