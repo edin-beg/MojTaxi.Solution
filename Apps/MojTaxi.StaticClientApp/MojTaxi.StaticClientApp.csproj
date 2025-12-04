@@ -25,9 +25,7 @@
 
   <ItemGroup>
     <!-- Use Update so we don't add a second icon item (implicit item already exists) -->
-    <MauiIcon Update="Resources/AppIcon/appicon.svg"
-              ForegroundFile="Resources/AppIcon/appiconfg.svg"
-              Color="#512BD4" />
+    <MauiIcon Update="Resources/AppIcon/appicon.svg" />
 
     <!-- Let implicit discovery handle images; only tweak the specific file -->
     <MauiImage Update="Resources/Images/mt1440x3200.png" Resize="True" BaseSize="300,185" />
@@ -39,7 +37,28 @@
     <MauiAsset Include="Resources/Raw/**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\AppIcon\appicon.svg" />
+    <None Remove="Resources\Images\logo.png" />
+    <None Remove="Resources\Images\mt1440x3200.png" />
+    <None Remove="Resources\Splash\splash.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\logo.png" />
+    <MauiImage Include="Resources\Images\mt1440x3200.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" />
+  </ItemGroup>
+
   <ItemGroup>    
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />    
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.0" />
     <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.0" />
@@ -50,6 +69,17 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\MojTaxi.ApiClient\MojTaxi.ApiClient.csproj" />
     <ProjectReference Include="..\..\Libraries\MojTaxi.Core\MojTaxi.Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\MojTaxi.Notifications\MojTaxi.Notifications.csproj" />
+    <ProjectReference Include="..\..\Libraries\MojTaxi.Settings.Services\MojTaxi.Settings.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Pages\LandingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
 
 </Project>

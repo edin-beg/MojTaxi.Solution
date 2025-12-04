@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MojTaxi.ClientApp.Models;
+using MojTaxi.Core.Models;
 using System.Collections.ObjectModel;
 
 namespace MojTaxi.ClientApp.ViewModels;

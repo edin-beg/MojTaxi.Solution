@@ -17,7 +17,10 @@ public partial class LandingPage : ContentPage
     {
         base.OnAppearing();
 
-        await Task.Delay(8000); // 2s splash
+        await Task.Delay(5000); // 2s splash
+
+        var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
+
         await Shell.Current.GoToAsync("//LoginPage");
     }
 }

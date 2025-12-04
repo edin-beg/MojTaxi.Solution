@@ -3,7 +3,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MojTaxi.Client.Pages.SettingsPage"
-             Title="Postavke" BackgroundColor="Black">
+             Title="Postavke"
+             BackgroundColor="Black"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             SafeAreaEdges="None">
     <VerticalStackLayout Padding="20" Spacing="15">
         <HorizontalStackLayout>
             <Label Text="Dark mode" TextColor="White" FontSize="18"/>

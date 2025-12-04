@@ -13,19 +13,19 @@ public partial class RegistrationViewModel : ObservableObject
     private readonly INavigationService _nav;
     
     [ObservableProperty]
-    private string firstName;
+    private string firstName = string.Empty;
 
     [ObservableProperty]
-    private string lastName;
+    private string lastName = string.Empty;
 
     [ObservableProperty]
-    private string phoneNumber;
+    private string phoneNumber = string.Empty;
 
     [ObservableProperty]
-    private string email;
+    private string email = string.Empty;
 
     [ObservableProperty]
-    private ImageSource profileImage;
+    private ImageSource? profileImage = null;
 
     public RegistrationViewModel(INavigationService nav)
     {
@@ -35,10 +35,10 @@ public partial class RegistrationViewModel : ObservableObject
     [RelayCommand]
     private async Task PickImage()
     {
-        FileResult photo = await MediaPicker.PickPhotoAsync();
+        List<FileResult> photo = await MediaPicker.PickPhotosAsync();
         if (photo != null)
         {
-            ProfileImage = ImageSource.FromFile(photo.FullPath);
+            ProfileImage = ImageSource.FromFile(photo[0].FullPath);
         }
     }
 

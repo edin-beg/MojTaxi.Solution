@@ -3,7 +3,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MojTaxi.Client.Pages.RideHistoryPage"
-             Title="Arhiva vožnji" BackgroundColor="Black">
+             Title="Arhiva vožnji"
+             BackgroundColor="Black"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             SafeAreaEdges="None">
     <CollectionView ItemsSource="{Binding Rides}" Margin="10">
         <CollectionView.ItemTemplate>
             <DataTemplate>

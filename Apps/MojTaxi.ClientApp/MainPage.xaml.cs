@@ -2,24 +2,32 @@
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Maps;
+using MojTaxi.ClientApp.Services;   
 using MojTaxi.ClientApp.ViewModels;
+using MojTaxi.Core;
+using MojTaxi.Core.Abstractions;               
+
 namespace MojTaxi.ClientApp.Pages;
 
 public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _vm;
+    private readonly IAppStatusService _status; 
     private Pin? userPin;
 
-    // MainViewModel sada dolazi iz DI
-    public MainPage(MainViewModel vm)
+    public MainPage(MainViewModel vm, IAppStatusService status)
     {
         InitializeComponent();
 
-#if IOS
-        this.SafeAreaEdges = Microsoft.Maui.SafeAreaEdges.None;
-#endif
-        var insets = On<iOS>().SafeAreaInsets();
-        BindingContext = _vm = vm;
+        _vm = vm;
+        _status = status;
+        BindingContext = _vm;
+
+        CheckInitialStatus();
+
+        //PRETPLATA NA EVENTE
+        _status.InternetStatusChanged += OnInternetChanged;
+        _status.GpsStatusChanged += OnGpsChanged;
 
         Loaded += async (_, __) =>
         {
@@ -61,14 +69,128 @@ public partial class MainPage : ContentPage
             TabContainer.Opacity = 0;
             TabContainer.IsVisible = true;
 
-            await TabContainer.TranslateTo(0, 0, 200, Easing.CubicOut);
-            await TabContainer.FadeTo(1, 200);
+            await TabContainer.TranslateToAsync(0, 0, 200, Easing.CubicOut);
+            await TabContainer.FadeToAsync(1, 200);
         }
         else
         {
-            await TabContainer.FadeTo(0, 200);
+            await TabContainer.FadeToAsync(0, 200);
             TabContainer.IsVisible = false;
         }
     }
-  
+
+    // -------------------------
+    // INTERNET HANDLER
+    // -------------------------
+    private void OnInternetChanged(bool hasInternet)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            if (!hasInternet)
+            {
+                StatusText.Text = "Nema internet konekcije";
+                StatusContainer.IsVisible = true;
+                StatusLine.BackgroundColor = Colors.Red;
+                await StartPulseAnimation();
+            }
+            else
+            {
+                StatusContainer.IsVisible = false;
+                StopPulseAnimation();
+            }
+        });
+    }
+
+
+    // -------------------------
+    // GPS HANDLER
+    // -------------------------
+    private void OnGpsChanged(bool hasGps)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            if (!hasGps)
+            {
+                StatusText.Text = "GPS je isključen";
+                StatusContainer.IsVisible = true;
+                StatusLine.BackgroundColor = Colors.Orange;
+                await StartPulseAnimation();
+            }
+            else
+            {
+                StatusContainer.IsVisible = false;
+                StopPulseAnimation();
+            }
+        });
+    }
+
+    /*   private void UpdateStatusLine()
+       {
+           // Crvena = nema internet
+           // Narandžasta = nema GPS
+
+           if (!_status.HasInternet)
+           {
+               StatusLine.IsVisible = true;
+               StatusLine.BackgroundColor = Colors.Red;
+           }
+           else if (!_status.HasGps)
+           {
+               StatusLine.IsVisible = true;
+               StatusLine.BackgroundColor = Colors.Orange;
+           }
+           else
+           {
+               StatusLine.IsVisible = false;
+           }
+
+           // Reset pozicije za animaciju
+           StatusLine.TranslationX = -400;
+       }
+    */
+    private CancellationTokenSource? _statusAnimationToken;
+
+    private async Task StartPulseAnimation()
+    {
+        _statusAnimationToken?.Cancel();
+        _statusAnimationToken = new CancellationTokenSource();
+
+        var token = _statusAnimationToken.Token;
+
+        while (!token.IsCancellationRequested)
+        {
+            await StatusLine.FadeToAsync(0.2, 800, Easing.CubicInOut);
+            await StatusLine.FadeToAsync(1.0, 800, Easing.CubicInOut);
+        }
+    }
+
+    private void StopPulseAnimation()
+    {
+        _statusAnimationToken?.Cancel();
+        StatusLine.Opacity = 1;
+    }
+
+    private void CheckInitialStatus()
+    {
+        if (!_status.HasInternet)
+        {
+            StatusText.Text = "Nema internet konekcije";
+            StatusText.TextColor = Colors.Red;
+            StatusContainer.IsVisible = true;
+            StatusLine.BackgroundColor = Colors.Red;
+            _ = StartPulseAnimation();
+        }
+        else if (!_status.HasGps)
+        {
+            StatusText.Text = "GPS je isključen";
+            StatusText.TextColor = Colors.Orange;
+            StatusContainer.IsVisible = true;
+            StatusLine.BackgroundColor = Colors.Orange;
+            _ = StartPulseAnimation();
+        }
+        else
+        {
+            StatusContainer.IsVisible = false;
+        }
+    }
 }

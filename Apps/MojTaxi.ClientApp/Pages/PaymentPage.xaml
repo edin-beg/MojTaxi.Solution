@@ -5,8 +5,9 @@
              xmlns:converters="clr-namespace:MojTaxi.ClientApp.Converters"
              x:Class="MojTaxi.ClientApp.Pages.PaymentPage"
              x:Name="ThisPage"
-             Title="Plaćanja"
-             BackgroundColor="#0B1120">
+             Shell.NavBarIsVisible="True"
+             BackgroundColor="#0B1120"
+             Title="Placanje">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToDefaultTextConverter x:Key="BoolToDefaultTextConverter" />

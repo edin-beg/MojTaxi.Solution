@@ -13,7 +13,7 @@
               IsShowingUser="True"
               VerticalOptions="Fill"
               HorizontalOptions="Fill" />
-
+        
         <!-- Gornji buttons overlay -->
         <Grid Padding="12,60,12,0"
           ColumnDefinitions="Auto,*,Auto"
@@ -96,6 +96,37 @@
                     CommandParameter="Alkohol" />
             </Grid>
         </Grid>
+
+        <!-- STATUS LINE -->
+        <StackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="Start"
+            Margin="0,20,0,0"
+            Spacing="4"
+            x:Name="StatusContainer"
+            IsVisible="False">
+
+            <!-- TEKST -->
+            <Label x:Name="StatusText"
+                   Text=""
+                   FontSize="14"
+                   TextColor="White"
+                   BackgroundColor="#000000AA"
+                   Padding="10,4"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   CornerRadius="6"/>
+
+            <!-- ANIMIRANA LINIJA -->
+            <BoxView x:Name="StatusLine"
+                     HeightRequest="4"
+                     WidthRequest="200"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Start"
+                     CornerRadius="2"
+                     BackgroundColor="#FFD600"
+                     IsVisible="True" />
+        </StackLayout>
     </Grid>
 
 </ContentPage>

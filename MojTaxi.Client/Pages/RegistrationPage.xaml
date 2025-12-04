@@ -1,76 +1,105 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MojTaxi.Client.Pages.RegistrationPage"
-             BackgroundColor="#000000"
-             Shell.NavBarIsVisible="False">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MojTaxi.Client.Pages.RegistrationPage"
+             BackgroundColor="Black"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             SafeAreaEdges="None">
 
-    <ScrollView BackgroundColor="#000000">
-        <VerticalStackLayout Padding="24" Spacing="18" HorizontalOptions="FillAndExpand">
+    <Grid>
 
-            <Label Text="Registracija"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   TextColor="White"
-                   HorizontalOptions="Center"/>
+        <ScrollView>
+            <Grid RowDefinitions="Auto, *, Auto"
+                  Padding="24"
+                  RowSpacing="18">
 
-            <!-- FOTO -->
-            <Border StrokeShape="RoundRectangle 70"
-                    Stroke="Transparent"
-                    HeightRequest="140"
-                    WidthRequest="140"
-                    HorizontalOptions="Center"
-                    BackgroundColor="#1A1A1A">
+                <!-- Naslov -->
+                <Label Text="Registracija"
+                       Grid.Row="0"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,10"/>
 
-                   <Image x:Name="ProfileImage"
-                          HeightRequest="140"
-                          WidthRequest="140"
-                          Aspect="AspectFill"/>
-            </Border>
+                <!-- Glavni sadržaj -->
+                <VerticalStackLayout Grid.Row="1"
+                                     Spacing="18"
+                                     HorizontalOptions="Fill"
+                                     VerticalOptions="Start">
 
+                    <!-- FOTO -->
+                    <Border StrokeShape="RoundRectangle 70"
+                            Stroke="Transparent"
+                            HeightRequest="140"
+                            WidthRequest="140"
+                            HorizontalOptions="Center"
+                            BackgroundColor="#1A1A1A">
 
-            <Button Text="Dodaj sliku"
-                    Command="{Binding PickImageCommand}"
-                    Style="{StaticResource TaxiButton}" />
+                        <Image x:Name="ProfileImage"
+                               HeightRequest="140"
+                               WidthRequest="140"
+                               Aspect="AspectFill"/>
+                    </Border>
 
-            <!-- INPUT POLJA -->
-            <Entry Placeholder="Ime"
-                   Text="{Binding FirstName}"
-                   BackgroundColor="#1A1A1A"
-                   TextColor="White"
-                   PlaceholderColor="#777"
-                   HorizontalOptions="FillAndExpand" />
+                    <Button Text="Dodaj sliku"
+                            Style="{StaticResource TaxiButton}"
+                            Command="{Binding PickImageCommand}" />
 
-            <Entry Placeholder="Prezime"
-                   Text="{Binding LastName}"
-                   BackgroundColor="#1A1A1A"
-                   TextColor="White"
-                   PlaceholderColor="#777"
-                   HorizontalOptions="FillAndExpand" />
+                    <!-- INPUT POLJA -->
+                    <Entry Placeholder="Ime"
+                           Text="{Binding FirstName}"
+                           BackgroundColor="#1A1A1A"
+                           TextColor="White"
+                           PlaceholderColor="#777"/>
 
-            <Entry Placeholder="Telefon"
-                   Text="{Binding PhoneNumber}"
-                   BackgroundColor="#1A1A1A"
-                   TextColor="White"
-                   IsEnabled="False"
-                   HorizontalOptions="FillAndExpand" />
+                    <Entry Placeholder="Prezime"
+                           Text="{Binding LastName}"
+                           BackgroundColor="#1A1A1A"
+                           TextColor="White"
+                           PlaceholderColor="#777"/>
 
-            <Entry Placeholder="E-mail"
-                   Text="{Binding Email}"
-                   Keyboard="Email"
-                   BackgroundColor="#1A1A1A"
-                   TextColor="White"
-                   PlaceholderColor="#777"
-                   HorizontalOptions="FillAndExpand" />
+                    <Entry Placeholder="Telefon"
+                           Text="{Binding PhoneNumber}"
+                           IsEnabled="False"
+                           BackgroundColor="#1A1A1A"
+                           TextColor="White"/>
 
-            <Button Text="Završi registraciju"
-                    Style="{StaticResource TaxiButton}"
-                    Command="{Binding SubmitCommand}" />
+                    <Entry Placeholder="E-mail"
+                           Text="{Binding Email}"
+                           Keyboard="Email"
+                           BackgroundColor="#1A1A1A"
+                           TextColor="White"
+                           PlaceholderColor="#777"/>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#FFD700"/>
-            <Label Text="{Binding Error}" TextColor="Red" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+                <!-- Bottom button + indikatori -->
+                <VerticalStackLayout Grid.Row="2"
+                                     Spacing="12"
+                                     VerticalOptions="End"
+                                     HorizontalOptions="Fill">
+
+                    <Button Text="Završi registraciju"
+                            Style="{StaticResource TaxiButton}"
+                            Command="{Binding SubmitCommand}" />
+
+                    <ActivityIndicator
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        Color="#FFD700"
+                        HorizontalOptions="Center" />
+
+                    <Label Text="{Binding Error}"
+                           TextColor="Red"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+            </Grid>
+        </ScrollView>
+
+    </Grid>
 
 </ContentPage>

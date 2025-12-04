@@ -6,6 +6,7 @@ using MojTaxi.Client.ViewModels;
 
 namespace MojTaxi.Client.Pages
 {
+
     public partial class MainPage : ContentPage
     {
         private readonly MainViewModel _vm;
@@ -14,12 +15,7 @@ namespace MojTaxi.Client.Pages
         // MainViewModel sada dolazi iz DI
         public MainPage(MainViewModel vm)
         {
-            InitializeComponent();
-
-#if IOS
-        this.SafeAreaEdges = Microsoft.Maui.SafeAreaEdges.None;
-#endif
-            var insets = On<iOS>().SafeAreaInsets();
+          InitializeComponent();
             BindingContext = _vm = vm;
 
             Loaded += async (_, __) =>
@@ -53,5 +49,31 @@ namespace MojTaxi.Client.Pages
                 userPin.Location = _vm.CurrentLocation;
             }
         }
+
+    /*    private async void ToggleMenu(object sender, EventArgs e)
+        {
+            if (!TabContainer.IsVisible)
+            {
+                TabContainer.TranslationY = 20;
+                TabContainer.Opacity = 0;
+                TabContainer.IsVisible = true;
+
+                await TabContainer.TranslateTo(0, 0, 200, Easing.CubicOut);
+                await TabContainer.FadeTo(1, 200);
+            }
+            else
+            {
+                await TabContainer.FadeTo(0, 200);
+                TabContainer.IsVisible = false;
+            }
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+
+            Console.WriteLine($"Page width: {width}, Page height: {height}");
+        }*/
+
     }
 }

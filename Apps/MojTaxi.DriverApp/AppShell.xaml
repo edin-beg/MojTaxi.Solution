@@ -4,14 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MojTaxi.DriverApp"
+    xmlns:pages="clr-namespace:MojTaxi.DriverApp.Pages"
     Shell.FlyoutBehavior="Disabled"
     Title="MojTaxi.DriverApp"
     Shell.NavBarIsVisible="False"
     Shell.TabBarIsVisible="False">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+
+    <!-- Startne stranice -->
+    <ShellContent 
+        Route="LandingPage"
+        ContentTemplate="{DataTemplate pages:LandingPage}"
+        Shell.NavBarIsVisible="False" />
+
+    <ShellContent 
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Shell.NavBarIsVisible="False" />
 
 </Shell>

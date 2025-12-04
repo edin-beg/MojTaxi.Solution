@@ -1,4 +1,4 @@
-﻿namespace MojTaxi.ClientApp.Models
+﻿namespace MojTaxi.Core.Models
 {
     public class PaymentCard
     {

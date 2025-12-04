@@ -50,16 +50,16 @@ namespace MojTaxi.Client
             builder.Services.AddSingleton<ISessionStore, SecureStorageSessionStore>();
           //  builder.Services.AddMojTaxiCore();
 
-            // Refit API clients
+            //Refit API clients
             builder.Services.AddRefitClient<IClientsApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(settings.BaseUrl))
                 .AddPolicyHandler(RetryPolicy());
 
-            // Navigation Service
+            //Navigation Service
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<AppShell>();
 
-            // ✅ All ViewModels as Transient
+            //All ViewModels as Transient
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<ProfileViewModel>();
             builder.Services.AddTransient<LoginViewModel>();
@@ -70,7 +70,7 @@ namespace MojTaxi.Client
             builder.Services.AddTransient<SettingsViewModel>();
             builder.Services.AddTransient<LegalViewModel>();
 
-            // ✅ Pages as Transient
+            //Pages as Transient
             builder.Services.AddTransient<LandingPage>();
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegistrationPage>();
@@ -82,10 +82,11 @@ namespace MojTaxi.Client
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<LegalPage>();
 
-            // ✅ Register AppShell so DI can inject it if needed
+            //Register AppShell so DI can inject it if needed
             builder.Services.AddSingleton<AppShell>();
 
             return builder.Build();
         }
+
     }
 }

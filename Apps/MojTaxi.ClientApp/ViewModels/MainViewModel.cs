@@ -28,23 +28,47 @@ namespace MojTaxi.ClientApp.ViewModels
         {
             try
             {
-                await CheckPermissions();
+                // 1) provjera i zahtjev za lokacijom
+                var granted = await EnsureLocationPermission();
+                if (!granted)
+                {
+                    Debug.WriteLine("Lokacija nije dozvoljena.");
+                    return;
+                }
 
-                var location = await Geolocation.GetLastKnownLocationAsync()
-                               ?? await Geolocation.GetLocationAsync(new GeolocationRequest(
-                                    GeolocationAccuracy.High, 
-                                    TimeSpan.FromSeconds(10)));
+                // 2) probaj prvo last-known
+                var location = await Geolocation.GetLastKnownLocationAsync();
 
+                // 3) ako nema — idi na live GPS
+                if (location == null)
+                {
+                    var request = new GeolocationRequest(
+                        GeolocationAccuracy.High,
+                        TimeSpan.FromSeconds(10));
+
+                    location = await Geolocation.GetLocationAsync(request);
+                }
+
+                // 4) postavi ako postoji
                 if (location != null)
                 {
                     CurrentLocation = new Location(location.Latitude, location.Longitude);
                 }
+                else
+                {
+                    Debug.WriteLine("GPS nije vratio lokaciju.");
+                }
+            }
+            catch (FeatureNotEnabledException)
+            {
+                Debug.WriteLine("GPS isključen na uređaju.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Location error: {ex.Message}");
+                Debug.WriteLine($"Greška u geolokaciji: {ex.Message}");
             }
         }
+
 
         [RelayCommand]
         private Task CallTaxi()
@@ -76,5 +100,18 @@ namespace MojTaxi.ClientApp.ViewModels
                 await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             }
         }
+
+        private async Task<bool> EnsureLocationPermission()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+            if (status == PermissionStatus.Granted)
+                return true;
+
+            status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+            return status == PermissionStatus.Granted;
+        }
+
     }
 }

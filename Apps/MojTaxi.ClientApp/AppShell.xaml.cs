@@ -20,7 +20,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
     }
 
-    // ✅ Čista Shell navigacija po ruti
+    //Čista Shell navigacija po ruti
     public async Task GoToPageAsync<T>() where T : Page
     {
         var route = typeof(T).Name;

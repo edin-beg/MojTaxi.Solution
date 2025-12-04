@@ -1,18 +1,17 @@
-﻿using Microsoft.Maui;
-using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using MojTaxi.ApiClient;
+﻿using MojTaxi.ApiClient;
+using MojTaxi.ApiClient.Infrastructure;
 using MojTaxi.Core;
 using MojTaxi.Core.Abstractions;
-using MojTaxi.DriverApp.Services;
 using MojTaxi.DriverApp.Pages;
+using MojTaxi.DriverApp.Services;
 using MojTaxi.DriverApp.ViewModels;
+using MojTaxi.Notifications;
+using MojTaxi.Settings.Services;
 using Polly;
 using Polly.Extensions.Http;
-using System.Net.Http;
-using MojTaxi.ApiClient.Infrastructure;
 using Refit;
+using SkiaSharp.Views.Maui.Controls.Hosting;
+using System.Net.Http;
 
 namespace MojTaxi.DriverApp;
 
@@ -28,31 +27,50 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseSkiaSharp()
             .ConfigureFonts(f =>
             {
                 f.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
+        // === API settings ===
         var settings = new ApiSettings
         {
-            BaseUrl    = "https://ssl.irget.se",
-            Version    = "V5",
-            BuildNumber= "185",
+            BaseUrl = "https://ssl.irget.se",
+            Version = "V5",
+            BuildNumber = "185",
             AppVersion = "1.3.1"
         };
         builder.Services.AddSingleton(settings);
 
+        // Storage & Core
         builder.Services.AddSingleton<ISessionStore, SecureStorageSessionStore>();
+        builder.Services.AddMojTaxiCore();
+        builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
+        builder.Services.AddSingleton<IGpsService, GpsService>();
+        builder.Services.AddSingleton<IAppStatusService, AppStatusService>();
 
-        builder.Services.AddRefitClient<IDriversApi>()
+        // Refit API clients
+        builder.Services.AddRefitClient<IClientsApi>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(settings.BaseUrl))
             .AddPolicyHandler(RetryPolicy());
 
-        builder.Services.AddMojTaxiCore();
+        // Navigation Service
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
+        builder.Services.AddSingleton<AppShell>();
 
+        // All ViewModels as Transient
         builder.Services.AddTransient<LoginViewModel>();
+
+        // Pages as Transient
+        builder.Services.AddTransient<LandingPage>();
         builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<MainPage>();
+
+        // Register AppShell so DI can inject it if needed
+        builder.Services.AddSingleton<AppShell>();
 
         return builder.Build();
     }

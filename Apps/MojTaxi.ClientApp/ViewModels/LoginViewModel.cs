@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MojTaxi.ClientApp.Models;
+using MojTaxi.Core.Models;
 using System.Collections.ObjectModel;
 
 namespace MojTaxi.ClientApp.ViewModels;
@@ -13,10 +13,10 @@ public partial class LoginViewModel : ObservableObject
     private CountryInfo selectedCountry;
 
     [ObservableProperty]
-    private string phoneNumber;
+    private string phoneNumber = string.Empty;
 
     [ObservableProperty]
-    private string otpCode;
+    private string otpCode = string.Empty;
 
     [ObservableProperty]
     private bool otpSent;
@@ -25,7 +25,7 @@ public partial class LoginViewModel : ObservableObject
     private bool isBusy;
 
     [ObservableProperty]
-    private string error;
+    private string error = string.Empty;
 
     [ObservableProperty]
     private int otpCooldown = 60;
@@ -57,7 +57,7 @@ public partial class LoginViewModel : ObservableObject
         if (!CanSendOtp) return;
 
         IsBusy = true;
-        Error = null;
+        Error = string.Empty;
 
         try
         {

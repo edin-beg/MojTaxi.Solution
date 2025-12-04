@@ -1,19 +1,21 @@
-﻿using Microsoft.Maui;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using MojTaxi.ApiClient;
+using MojTaxi.ApiClient.Infrastructure;
+using MojTaxi.ClientApp.Pages;
+using MojTaxi.ClientApp.Services;
+using MojTaxi.ClientApp.ViewModels;
 using MojTaxi.Core;
 using MojTaxi.Core.Abstractions;
-using MojTaxi.ClientApp.Services;
-using MojTaxi.ClientApp.Pages;
-using MojTaxi.ClientApp.ViewModels;
+using MojTaxi.Notifications;
+using MojTaxi.Settings.Services;
 using Polly;
 using Polly.Extensions.Http;
-using System.Net.Http;
-using MojTaxi.ApiClient.Infrastructure;
 using Refit;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using System.Net.Http;
 
 namespace MojTaxi.ClientApp;
 
@@ -51,6 +53,9 @@ public static class MauiProgram
         // Storage & Core
         builder.Services.AddSingleton<ISessionStore, SecureStorageSessionStore>();
         builder.Services.AddMojTaxiCore();
+        builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
+        builder.Services.AddSingleton<IGpsService, GpsService>();
+        builder.Services.AddSingleton<IAppStatusService, AppStatusService>();
 
         // Refit API clients
         builder.Services.AddRefitClient<IClientsApi>()
@@ -61,7 +66,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<INavigationService, NavigationService>();
         builder.Services.AddSingleton<AppShell>();
 
-        // ✅ All ViewModels as Transient
+        // All ViewModels as Transient
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
@@ -72,7 +77,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SettingsViewModel>();
         builder.Services.AddTransient<LegalViewModel>();
 
-        // ✅ Pages as Transient
+        // Pages as Transient
         builder.Services.AddTransient<LandingPage>();
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<RegistrationPage>();
@@ -84,7 +89,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SettingsPage>();
         builder.Services.AddTransient<LegalPage>();
 
-        // ✅ Register AppShell so DI can inject it if needed
+        // Register AppShell so DI can inject it if needed
         builder.Services.AddSingleton<AppShell>();
 
         return builder.Build();

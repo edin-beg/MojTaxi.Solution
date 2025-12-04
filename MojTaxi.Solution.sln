@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11205.157 d18.0
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.ClientApp", "Apps\MojTaxi.ClientApp\MojTaxi.ClientApp.csproj", "{00CBECFA-50B6-4268-8B9B-485E4DF738AE}"
 EndProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Storage", "Libraries\MojTaxi.Storage\MojTaxi.Storage.csproj", "{7A461A1C-0478-4B50-8D1E-E1F177F39BCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Location", "Libraries\MojTaxi.Location\MojTaxi.Location.csproj", "{29950351-0ED5-4C09-B8ED-C7A53547FD7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Settings.Services", "Libraries\MojTaxi.Settings.Services\MojTaxi.Settings.Services.csproj", "{29950351-0ED5-4C09-B8ED-C7A53547FD7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Notifications", "Libraries\MojTaxi.Notifications\MojTaxi.Notifications.csproj", "{D6194895-0143-48ED-AB5F-2B069C164B86}"
 EndProject

@@ -6,7 +6,10 @@
              x:Class="MojTaxi.Client.Pages.PaymentPage"
              x:Name="ThisPage"
              Title="Plaćanja"
-             BackgroundColor="#0B1120">
+             BackgroundColor="Black"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             SafeAreaEdges="None">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToDefaultTextConverter x:Key="BoolToDefaultTextConverter" />
