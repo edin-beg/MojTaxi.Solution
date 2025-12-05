@@ -2,6 +2,7 @@
 using MojTaxi.ApiClient.Infrastructure;
 using MojTaxi.Core;
 using MojTaxi.Core.Abstractions;
+using MojTaxi.Core.Implementations;
 using MojTaxi.DriverApp.Pages;
 using MojTaxi.DriverApp.Services;
 using MojTaxi.DriverApp.ViewModels;
@@ -51,6 +52,18 @@ public static class MauiProgram
         builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
         builder.Services.AddSingleton<IGpsService, GpsService>();
         builder.Services.AddSingleton<IAppStatusService, AppStatusService>();
+
+        builder.Services.AddSingleton<ILocalErrorStore, LocalErrorStore>();
+        builder.Services.AddSingleton<IRemoteErrorSender, RemoteErrorSender>();
+        builder.Services.AddSingleton<IErrorLogger, ErrorLogger>();
+
+        builder.Services.AddHttpClient<IRemoteErrorSender, RemoteErrorSender>(client =>
+        {
+            client.BaseAddress = new Uri("https://tvoj-api.com");
+        });
+
+        // Background sync
+        builder.Services.AddSingleton<ErrorSyncBackgroundService>();
 
         // Refit API clients
         builder.Services.AddRefitClient<IClientsApi>()

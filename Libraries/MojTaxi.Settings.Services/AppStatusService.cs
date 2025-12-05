@@ -1,12 +1,8 @@
 ﻿using MojTaxi.Core.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MojTaxi.Settings.Services
 {
-
-
     public class AppStatusService : IAppStatusService
     {
         private readonly GpsService _gpsService;
@@ -35,15 +31,22 @@ namespace MojTaxi.Settings.Services
         /// </summary>
         public void StartMonitoring()
         {
-            // sluša internet promjene
+            // Internet promjene
             Connectivity.ConnectivityChanged += HandleInternetChanged;
 
-            // periodična provjera GPS-a
-            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            // GPS timer (MAUI 10 proper)
+            var dispatcher = Application.Current?.Dispatcher;
+
+            if (dispatcher != null)
             {
-                _ = CheckGpsAsync();
-                return true; // ponavljaj timer
-            });
+                dispatcher.StartTimer(
+                    TimeSpan.FromSeconds(10),
+                    () =>
+                    {
+                        _ = CheckGpsAsync();
+                        return true; // ponavljaj timer
+                    });
+            }
         }
 
         private void HandleInternetChanged(object? sender, ConnectivityChangedEventArgs e)

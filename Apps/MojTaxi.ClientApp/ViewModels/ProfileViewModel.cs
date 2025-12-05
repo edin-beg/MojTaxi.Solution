@@ -65,13 +65,14 @@ public partial class ProfileViewModel : ObservableObject
         }
     }
 
-    public async Task LoadProfileAsync()
+    public Task LoadProfileAsync()
     {
         FullName = "Edin Begović";
         PhoneNumber = "+387 61 000 000";
         Email = "edin@example.com";
 
         ProfileImage = ImageSource.FromUri(new Uri("https://images.unsplash.com/photo-1728577740843-5f29c7586afe?auto=format&fit=crop&q=80&w=1160"));
+        return Task.CompletedTask;
     }
 }
 
