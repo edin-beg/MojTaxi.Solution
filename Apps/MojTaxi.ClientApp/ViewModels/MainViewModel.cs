@@ -1,11 +1,16 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using Microsoft.Maui.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Maps;
 using MojTaxi.ClientApp.Pages;
+using MojTaxi.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MojTaxi.ClientApp.ViewModels
 {
@@ -16,19 +21,22 @@ namespace MojTaxi.ClientApp.ViewModels
         private readonly INavigationService _nav;
 
         [ObservableProperty]
-        private Location? currentLocation;
+        private Location currentLocation;
 
         public MainViewModel(INavigationService nav)
         {
             _nav = nav;
         }
 
+
+        // ============================================================
+        //  1) LOADING USER LOCATION 
+        // ============================================================
         [RelayCommand]
         private async Task LoadLocation()
         {
             try
             {
-                // 1) provjera i zahtjev za lokacijom
                 var granted = await EnsureLocationPermission();
                 if (!granted)
                 {
@@ -36,10 +44,8 @@ namespace MojTaxi.ClientApp.ViewModels
                     return;
                 }
 
-                // 2) probaj prvo last-known
                 var location = await Geolocation.GetLastKnownLocationAsync();
 
-                // 3) ako nema — idi na live GPS
                 if (location == null)
                 {
                     var request = new GeolocationRequest(
@@ -49,19 +55,8 @@ namespace MojTaxi.ClientApp.ViewModels
                     location = await Geolocation.GetLocationAsync(request);
                 }
 
-                // 4) postavi ako postoji
                 if (location != null)
-                {
-                    CurrentLocation = new Location(location.Latitude, location.Longitude);
-                }
-                else
-                {
-                    Debug.WriteLine("GPS nije vratio lokaciju.");
-                }
-            }
-            catch (FeatureNotEnabledException)
-            {
-                Debug.WriteLine("GPS isključen na uređaju.");
+                    currentLocation = new Location(location.Latitude, location.Longitude);
             }
             catch (Exception ex)
             {
@@ -69,6 +64,21 @@ namespace MojTaxi.ClientApp.ViewModels
             }
         }
 
+        private async Task<bool> EnsureLocationPermission()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+            if (status == PermissionStatus.Granted)
+                return true;
+
+            status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            return status == PermissionStatus.Granted;
+        }
+
+
+        // ============================================================
+        //  COMMANDS
+        // ============================================================
 
         [RelayCommand]
         private Task CallTaxi()
@@ -91,27 +101,5 @@ namespace MojTaxi.ClientApp.ViewModels
             return page?.DisplayAlertAsync("Tab", $"Otvorio si: {tabName}", "OK")
                    ?? Task.CompletedTask;
         }
-
-        private async Task CheckPermissions()
-        {
-            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            if (status != PermissionStatus.Granted)
-            {
-                await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            }
-        }
-
-        private async Task<bool> EnsureLocationPermission()
-        {
-            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-
-            if (status == PermissionStatus.Granted)
-                return true;
-
-            status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-
-            return status == PermissionStatus.Granted;
-        }
-
     }
 }

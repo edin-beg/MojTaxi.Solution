@@ -1,4 +1,5 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="MojTaxi.ClientApp.Pages.MainPage"
@@ -7,126 +8,123 @@
              SafeAreaEdges="SoftInput">
 
     <Grid Padding="12,0,12,0">
+
         <!-- MAPA FULLSCREEN -->
         <maps:Map x:Name="mapControl"
-              MapType="Street"
-              IsShowingUser="True"
-              VerticalOptions="Fill"
-              HorizontalOptions="Fill" />
+                  MapType="Street"
+                  IsShowingUser="True"
+                  VerticalOptions="Fill"
+                  HorizontalOptions="Fill" />
         
         <!-- Gornji buttons overlay -->
         <Grid Padding="12,60,12,0"
-          ColumnDefinitions="Auto,*,Auto"
-          HorizontalOptions="Fill"
-          VerticalOptions="Start">
+              ColumnDefinitions="Auto,*,Auto"
+              HorizontalOptions="Fill"
+              VerticalOptions="Start">
 
             <Button Grid.Column="0"
-                Style="{StaticResource TaxiButton}"
-                FontFamily="MaterialIcons"
-                FontSize="26"
-                Text="&#xE0B0;"
-                WidthRequest="52"
-                HeightRequest="52"
-                CornerRadius="26"
-                Command="{Binding CallTaxiCommand}" />
+                    Style="{StaticResource TaxiButton}"
+                    FontFamily="MaterialIcons"
+                    FontSize="26"
+                    Text="&#xE0B0;"
+                    WidthRequest="52"
+                    HeightRequest="52"
+                    CornerRadius="26"
+                    Command="{Binding CallTaxiCommand}" />
 
             <Button Grid.Column="2"
-                Style="{StaticResource TaxiButton}"
-                FontFamily="MaterialIcons"
-                FontSize="26"
-                Text="&#xE7FD;"
-                WidthRequest="52"
-                HeightRequest="52"
-                CornerRadius="26"
-                Command="{Binding ProfileCommand}" />
+                    Style="{StaticResource TaxiButton}"
+                    FontFamily="MaterialIcons"
+                    FontSize="26"
+                    Text="&#xE7FD;"
+                    WidthRequest="52"
+                    HeightRequest="52"
+                    CornerRadius="26"
+                    Command="{Binding ProfileCommand}" />
         </Grid>
 
         <!-- Donji buttons overlay -->
         <Grid Padding="12,0,12,60"
-          ColumnDefinitions="60,*,*,*,*"
-          ColumnSpacing="12"
-          HorizontalOptions="Fill"
-          VerticalOptions="End">
+              ColumnDefinitions="60,*,*,*,*"
+              ColumnSpacing="12"
+              HorizontalOptions="Fill"
+              VerticalOptions="End">
 
             <Button x:Name="HamburgerBtn"
-                Grid.Column="0"
-                Text="|||"
-                FontSize="26"
-                WidthRequest="60"
-                HeightRequest="60"
-                CornerRadius="30"
-                Style="{StaticResource TaxiButton}"
-                TextColor="Black"
-                Clicked="ToggleMenu" />
+                    Grid.Column="0"
+                    Text="|||"
+                    FontSize="26"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    Style="{StaticResource TaxiButton}"
+                    TextColor="Black"
+                    Clicked="ToggleMenu" />
 
             <Grid Grid.Column="1"
-              Grid.ColumnSpan="4"
-              ColumnDefinitions="*,*,*,*"
-              ColumnSpacing="12"
-              IsVisible="False"
-              x:Name="TabContainer">
+                  Grid.ColumnSpan="4"
+                  ColumnDefinitions="*,*,*,*"
+                  ColumnSpacing="12"
+                  x:Name="TabContainer"
+                  IsVisible="False">
 
                 <Button Grid.Column="0"
-                    Style="{StaticResource TaxiButton}"
-                    FontFamily="MaterialIcons"
-                    FontSize="24"
-                    Text="&#xEB41;"
-                    Command="{Binding TabClickedCommand}"
-                    CommandParameter="Djeca" />
+                        Style="{StaticResource TaxiButton}"
+                        FontFamily="MaterialIcons"
+                        FontSize="24"
+                        Text="&#xEB41;"
+                        Command="{Binding TabClickedCommand}"
+                        CommandParameter="Djeca" />
+
                 <Button Grid.Column="1"
-                    Style="{StaticResource TaxiButton}"
-                    FontFamily="MaterialIcons"
-                    FontSize="24"
-                    Text="&#xE91D;"
-                    Command="{Binding TabClickedCommand}"
-                    CommandParameter="Ljubimci" />
+                        Style="{StaticResource TaxiButton}"
+                        FontFamily="MaterialIcons"
+                        FontSize="24"
+                        Text="&#xE91D;"
+                        Command="{Binding TabClickedCommand}"
+                        CommandParameter="Ljubimci" />
+
                 <Button Grid.Column="2"
-                    Style="{StaticResource TaxiButton}"
-                    FontFamily="MaterialIcons"
-                    FontSize="24"
-                    Text="&#xE914;"
-                    Command="{Binding TabClickedCommand}"
-                    CommandParameter="Invalidi" />
+                        Style="{StaticResource TaxiButton}"
+                        FontFamily="MaterialIcons"
+                        FontSize="24"
+                        Text="&#xE914;"
+                        Command="{Binding TabClickedCommand}"
+                        CommandParameter="Invalidi" />
+
                 <Button Grid.Column="3"
-                    Style="{StaticResource TaxiButton}"
-                    FontFamily="MaterialIcons"
-                    FontSize="24"
-                    Text="&#xE540;"
-                    Command="{Binding TabClickedCommand}"
-                    CommandParameter="Alkohol" />
+                        Style="{StaticResource TaxiButton}"
+                        FontFamily="MaterialIcons"
+                        FontSize="24"
+                        Text="&#xE540;"
+                        Command="{Binding TabClickedCommand}"
+                        CommandParameter="Alkohol" />
             </Grid>
         </Grid>
 
         <!-- STATUS LINE -->
-        <StackLayout
-            HorizontalOptions="Center"
-            VerticalOptions="Start"
-            Margin="0,20,0,0"
-            Spacing="4"
-            x:Name="StatusContainer"
-            IsVisible="False">
+        <StackLayout HorizontalOptions="Center"
+                     VerticalOptions="Start"
+                     Margin="0,20,0,0"
+                     Spacing="4"
+                     x:Name="StatusContainer"
+                     IsVisible="False">
 
-            <!-- TEKST -->
             <Label x:Name="StatusText"
-                   Text=""
                    FontSize="14"
                    TextColor="White"
                    BackgroundColor="#000000AA"
                    Padding="10,4"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   CornerRadius="6"/>
+                   HorizontalOptions="Center"/>
 
-            <!-- ANIMIRANA LINIJA -->
             <BoxView x:Name="StatusLine"
                      HeightRequest="4"
                      WidthRequest="200"
                      HorizontalOptions="Center"
-                     VerticalOptions="Start"
                      CornerRadius="2"
                      BackgroundColor="#FFD600"
                      IsVisible="True" />
         </StackLayout>
-    </Grid>
 
+    </Grid>
 </ContentPage>

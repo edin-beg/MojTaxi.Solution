@@ -5,7 +5,7 @@ namespace MojTaxi.Settings.Services
 {
     public class AppStatusService : IAppStatusService
     {
-        private readonly GpsService _gpsService;
+        private readonly IGpsService _gpsService;
         private readonly ILocalNotificationService _notificationService;
 
         public bool HasInternet { get; private set; }
@@ -15,7 +15,7 @@ namespace MojTaxi.Settings.Services
         public event Action<bool>? GpsStatusChanged;
 
         public AppStatusService(
-            GpsService gpsService,
+            IGpsService gpsService,
             ILocalNotificationService notificationService)
         {
             _gpsService = gpsService;

@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Hosting;
-using MojTaxi.ApiClient;
+﻿using MojTaxi.ApiClient;
 using MojTaxi.ApiClient.Infrastructure;
 using MojTaxi.ClientApp.Pages;
 using MojTaxi.ClientApp.Services;
@@ -40,6 +36,7 @@ public static class MauiProgram
                 f.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 f.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
+
 
         // === API settings ===
         var settings = new ApiSettings

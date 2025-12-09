@@ -1,19 +1,19 @@
 ﻿using Microsoft.Maui.Controls.Maps;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Maps;
-using MojTaxi.ClientApp.Services;   
+using MojTaxi.ClientApp.Services;
 using MojTaxi.ClientApp.ViewModels;
-using MojTaxi.Core;
-using MojTaxi.Core.Abstractions;               
+using MojTaxi.Core.Abstractions;
+using MojTaxi.Core.Models;
+using System.Diagnostics;
 
 namespace MojTaxi.ClientApp.Pages;
 
 public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _vm;
-    private readonly IAppStatusService _status; 
-    private Pin? userPin;
+    private readonly IAppStatusService _status;
+
+    private CancellationTokenSource? _statusAnimationToken;    
 
     public MainPage(MainViewModel vm, IAppStatusService status)
     {
@@ -25,63 +25,47 @@ public partial class MainPage : ContentPage
 
         CheckInitialStatus();
 
-        //PRETPLATA NA EVENTE
         _status.InternetStatusChanged += OnInternetChanged;
         _status.GpsStatusChanged += OnGpsChanged;
 
         Loaded += async (_, __) =>
         {
             await _vm.LoadLocationCommand.ExecuteAsync(null);
-            UpdateMap();
+
+            if (_vm.CurrentLocation != null)
+            {
+                mapControl.MoveToRegion(
+                    MapSpan.FromCenterAndRadius(
+                        _vm.CurrentLocation,
+                        Distance.FromKilometers(2)));
+            }
         };
     }
 
-    private void UpdateMap()
+
+    // ============================================================
+    // OnAppearing — centriranje na user lokaciju
+    // ============================================================
+    protected override async void OnAppearing()
     {
-        if (_vm.CurrentLocation == null)
-            return;
+        base.OnAppearing();
 
-        var span = MapSpan.FromCenterAndRadius(_vm.CurrentLocation, Distance.FromKilometers(1));
-        mapControl.MoveToRegion(span);
-
-        if (userPin == null)
-        {
-            userPin = new Pin
-            {
-                Label = "Moja lokacija",
-                Address = "Trenutna pozicija",
-                Type = PinType.Generic,
-                Location = _vm.CurrentLocation
-            };
-            mapControl.Pins.Add(userPin);
-        }
-        else
-        {
-            userPin.Location = _vm.CurrentLocation;
-        }
     }
 
-    private async void ToggleMenu(object sender, EventArgs e)
+    protected override void OnDisappearing()
     {
-        if (!TabContainer.IsVisible)
-        {
-            TabContainer.TranslationY = 20;
-            TabContainer.Opacity = 0;
-            TabContainer.IsVisible = true;
+        base.OnDisappearing();
 
-            await TabContainer.TranslateToAsync(0, 0, 200, Easing.CubicOut);
-            await TabContainer.FadeToAsync(1, 200);
-        }
-        else
-        {
-            await TabContainer.FadeToAsync(0, 200);
-            TabContainer.IsVisible = false;
-        }
+        _status.InternetStatusChanged -= OnInternetChanged;
+        _status.GpsStatusChanged -= OnGpsChanged;
+
+        StopPulseAnimation();
     }
 
-    // -------------------------
-    // INTERNET HANDLER
-    // -------------------------
+
+    // ============================================================
+    // STATUS HANDLER
+    // ============================================================
     private void OnInternetChanged(bool hasInternet)
     {
         MainThread.BeginInvokeOnMainThread(async () =>
@@ -101,10 +85,6 @@ public partial class MainPage : ContentPage
         });
     }
 
-
-    // -------------------------
-    // GPS HANDLER
-    // -------------------------
     private void OnGpsChanged(bool hasGps)
     {
         MainThread.BeginInvokeOnMainThread(async () =>
@@ -124,37 +104,13 @@ public partial class MainPage : ContentPage
         });
     }
 
-    /*   private void UpdateStatusLine()
-       {
-           // Crvena = nema internet
-           // Narandžasta = nema GPS
-
-           if (!_status.HasInternet)
-           {
-               StatusLine.IsVisible = true;
-               StatusLine.BackgroundColor = Colors.Red;
-           }
-           else if (!_status.HasGps)
-           {
-               StatusLine.IsVisible = true;
-               StatusLine.BackgroundColor = Colors.Orange;
-           }
-           else
-           {
-               StatusLine.IsVisible = false;
-           }
-
-           // Reset pozicije za animaciju
-           StatusLine.TranslationX = -400;
-       }
-    */
-    private CancellationTokenSource? _statusAnimationToken;
-
+    // ============================================================
+    // STATUS ANIMACIJA (Pulse)
+    // ============================================================
     private async Task StartPulseAnimation()
     {
         _statusAnimationToken?.Cancel();
         _statusAnimationToken = new CancellationTokenSource();
-
         var token = _statusAnimationToken.Token;
 
         while (!token.IsCancellationRequested)
@@ -175,7 +131,6 @@ public partial class MainPage : ContentPage
         if (!_status.HasInternet)
         {
             StatusText.Text = "Nema internet konekcije";
-            StatusText.TextColor = Colors.Red;
             StatusContainer.IsVisible = true;
             StatusLine.BackgroundColor = Colors.Red;
             _ = StartPulseAnimation();
@@ -183,7 +138,6 @@ public partial class MainPage : ContentPage
         else if (!_status.HasGps)
         {
             StatusText.Text = "GPS je isključen";
-            StatusText.TextColor = Colors.Orange;
             StatusContainer.IsVisible = true;
             StatusLine.BackgroundColor = Colors.Orange;
             _ = StartPulseAnimation();
@@ -191,6 +145,27 @@ public partial class MainPage : ContentPage
         else
         {
             StatusContainer.IsVisible = false;
+        }
+    }
+
+    // ============================================================
+    // UI (Hamburger)
+    // ============================================================
+    private async void ToggleMenu(object sender, EventArgs e)
+    {
+        if (!TabContainer.IsVisible)
+        {
+            TabContainer.TranslationY = 20;
+            TabContainer.Opacity = 0;
+            TabContainer.IsVisible = true;
+
+            await TabContainer.TranslateToAsync(0, 0, 200, Easing.CubicOut);
+            await TabContainer.FadeToAsync(1, 200);
+        }
+        else
+        {
+            await TabContainer.FadeToAsync(0, 200);
+            TabContainer.IsVisible = false;
         }
     }
 }

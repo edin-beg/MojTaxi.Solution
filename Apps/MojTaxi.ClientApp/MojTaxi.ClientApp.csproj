@@ -19,7 +19,7 @@
 
     <!-- Minimalne platform verzije -->
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
 
   </PropertyGroup>
 
@@ -40,7 +40,7 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-  </ItemGroup>
+  </ItemGroup>	
 
   <!-- NuGet paketi -->
   <ItemGroup>
@@ -48,6 +48,7 @@
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.11" />
     <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.11" />
+	<PackageReference Include="Microsoft.Maui.Maps" Version="10.0.11" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="3.0.0" />
   </ItemGroup>
