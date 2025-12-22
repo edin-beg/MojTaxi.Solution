@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MojTaxi.ApiClient;
 using MojTaxi.ApiClient.Infrastructure;
+using MojTaxi.ClientApp.Services.Auth;
 using MojTaxi.Core.Abstractions;
 using MojTaxi.Core.Models;
 using System.Collections.ObjectModel;
@@ -10,13 +11,16 @@ namespace MojTaxi.ClientApp.ViewModels;
 
 public partial class LoginViewModel : ObservableObject
 {
-    public ObservableCollection<CountryInfo> Countries { get; set; }
+    public ObservableCollection<CountryInfo> Countries { get; }
 
     [ObservableProperty]
     private CountryInfo selectedCountry;
 
     [ObservableProperty]
     private string phoneNumber = string.Empty;
+
+    [ObservableProperty]
+    private string email = string.Empty;
 
     [ObservableProperty]
     private string otpCode = string.Empty;
@@ -31,21 +35,40 @@ public partial class LoginViewModel : ObservableObject
     private string error = string.Empty;
 
     [ObservableProperty]
-    private int otpCooldown = 60;
+    private int otpCooldown;
 
-    public bool CanSendOtp => !IsBusy && !string.IsNullOrWhiteSpace(PhoneNumber);
+    [ObservableProperty]
+    private LoginMethod selectedLoginMethod = LoginMethod.Sms;
+
+    public bool IsSms => SelectedLoginMethod == LoginMethod.Sms;
+    public bool IsEmail => SelectedLoginMethod == LoginMethod.Email;
+
+    public bool CanSendOtp =>
+        !IsBusy &&
+        (
+            (IsSms && !string.IsNullOrWhiteSpace(PhoneNumber)) ||
+            (IsEmail && !string.IsNullOrWhiteSpace(Email))
+        );
+
     public bool CanVerifyOtp => !IsBusy && !string.IsNullOrWhiteSpace(OtpCode);
     public bool CanResendOtp => OtpCooldown == 0;
 
     private readonly IClientsApi _clientsApi;
     private readonly ApiSettings _apiSettings;
-    private readonly IAuthService _authService; 
+    private readonly IAuthService _authService;
+    private readonly IOtpSenderService _otpSenderService;   
 
-    public LoginViewModel(IClientsApi clientsApi, ApiSettings apiSettings, IAuthService authService)
+    public LoginViewModel(
+        IClientsApi clientsApi,
+        ApiSettings apiSettings,
+        IAuthService authService,
+        IOtpSenderService otpSenderService)
     {
         _clientsApi = clientsApi;
         _apiSettings = apiSettings;
         _authService = authService;
+        _otpSenderService = otpSenderService;
+
         Countries = new ObservableCollection<CountryInfo>
         {
             new CountryInfo { Name = "Bosna i Hercegovina", Code = "+387", Flag = "🇧🇦" },
@@ -61,6 +84,19 @@ public partial class LoginViewModel : ObservableObject
         SelectedCountry = Countries.First(x => x.Code == "+387");
     }
 
+    partial void OnSelectedLoginMethodChanged(LoginMethod value)
+    {
+        OnPropertyChanged(nameof(IsSms));
+        OnPropertyChanged(nameof(IsEmail));
+        OnPropertyChanged(nameof(CanSendOtp));
+    }
+
+    [RelayCommand]
+    private void SetSms() => SelectedLoginMethod = LoginMethod.Sms;
+
+    [RelayCommand]
+    private void SetEmail() => SelectedLoginMethod = LoginMethod.Email;
+
     [RelayCommand]
     private async Task SendOtp()
     {
@@ -71,8 +107,12 @@ public partial class LoginViewModel : ObservableObject
 
         try
         {
-            // TODO: Pošalji OTP preko API-a
-            await Task.Delay(500); // simulacija API poziva
+            await _otpSenderService.SendOtpAsync(
+    SelectedLoginMethod,
+    IsSms
+        ? $"{SelectedCountry.Code}{PhoneNumber}"
+        : Email);
+            await Task.Delay(500);
 
             OtpSent = true;
             await StartOtpCooldown();
@@ -81,39 +121,31 @@ public partial class LoginViewModel : ObservableObject
         {
             Error = "Greška pri slanju OTP-a";
         }
-
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
     private async Task VerifyOtp()
     {
-        if (IsBusy) return;
+        if (!CanVerifyOtp) return;
 
         IsBusy = true;
         Error = string.Empty;
 
         try
         {
-            await Task.Run(async () =>
-            {
-                await _authService.LoginAsync(
-                    email: "edin.begovic@it-craft.ba",
-                    password: "lokaL993**");
-            });
+            await _authService.LoginAsync(
+                email: "edin.begovic@it-craft.ba",
+                password: "lokaL993**");
 
-            await MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-                await Shell.Current.GoToAsync("//RegistrationPage");
-            });
+            await Shell.Current.GoToAsync("//RegistrationPage");
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
-            Error = ex.Message; // "Invalid email/password combination..."
-        }
-        catch (Exception)
-        {
-            Error = "Unexpected error occurred. Try again.";
+            Error = ex.Message;
         }
         finally
         {
@@ -124,7 +156,6 @@ public partial class LoginViewModel : ObservableObject
     private async Task StartOtpCooldown()
     {
         OtpCooldown = 60;
-        OnPropertyChanged(nameof(OtpCooldown));
         OnPropertyChanged(nameof(CanResendOtp));
 
         while (OtpCooldown > 0)
@@ -135,15 +166,19 @@ public partial class LoginViewModel : ObservableObject
             OnPropertyChanged(nameof(CanResendOtp));
         }
     }
-    
-    partial void OnOtpCodeChanged(string value)
-    {
+
+    partial void OnOtpCodeChanged(string value) =>
         OnPropertyChanged(nameof(CanVerifyOtp));
-    }
 
     partial void OnIsBusyChanged(bool value)
     {
         OnPropertyChanged(nameof(CanVerifyOtp));
+        OnPropertyChanged(nameof(CanSendOtp));
     }
+}
 
+public enum LoginMethod
+{
+    Sms,
+    Email
 }

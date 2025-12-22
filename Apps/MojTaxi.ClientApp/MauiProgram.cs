@@ -2,6 +2,7 @@
 using MojTaxi.ApiClient.Infrastructure;
 using MojTaxi.ClientApp.Pages;
 using MojTaxi.ClientApp.Services;
+using MojTaxi.ClientApp.Services.Auth;
 using MojTaxi.ClientApp.ViewModels;
 using MojTaxi.Core;
 using MojTaxi.Core.Abstractions;
@@ -64,6 +65,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICredentialStore, SecureCredentialStore>();
 
         builder.Services.AddSingleton<IAuthService, AuthService>();
+
+        builder.Services.AddHttpClient<InfobipSmsSender>();
+        builder.Services.AddSingleton<EmailOtpSender>();
+        builder.Services.AddSingleton<IOtpSenderService, OtpSenderService>();
 
 
         builder.Services.AddHttpClient<IRemoteErrorSender, RemoteErrorSender>(client =>
