@@ -18,6 +18,12 @@ public interface IClientsApi
         [Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, object> form);
 
     // POST /{ver}/clients/login
+    /// <summary>
+    /// Method for login a client
+    /// </summary>
+    /// <param name="version"></param>
+    /// <param name="form">email, password, device_id, build_number</param>
+    /// <returns></returns>
     [Post("/{ver}/clients/login")]
     Task<ClientLoginResponse> LoginClientAsync([AliasAs("ver")] string version,
         [Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, object> form);

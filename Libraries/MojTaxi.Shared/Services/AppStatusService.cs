@@ -1,7 +1,7 @@
 ﻿using MojTaxi.Core.Abstractions;
 using System;
 
-namespace MojTaxi.Settings.Services
+namespace MojTaxi.Shared.Services
 {
     public class AppStatusService : IAppStatusService
     {

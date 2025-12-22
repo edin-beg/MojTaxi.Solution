@@ -11,7 +11,7 @@ public sealed class ClientLoginResponse
     public ClientDto? Client { get; set; }
 
     [JsonPropertyName("vehicles")]
-    public List<VehicleDto>? Vehicles { get; set; }
+    public List<VehicleClientDto>? Vehicles { get; set; }
 
     [JsonPropertyName("pgw_settings")]
     public PaymentGatewaySettingsDto? PaymentGatewaySettings { get; set; }

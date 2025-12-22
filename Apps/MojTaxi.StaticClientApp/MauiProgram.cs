@@ -4,7 +4,7 @@ using MojTaxi.Core;
 using MojTaxi.Core.Abstractions;
 using MojTaxi.Core.Implementations;
 using MojTaxi.Notifications;
-using MojTaxi.Settings.Services;
+using MojTaxi.Shared.Services;
 using MojTaxi.StaticClientApp.Pages;
 using MojTaxi.StaticClientApp.Services;
 using MojTaxi.StaticClientApp.ViewModels;

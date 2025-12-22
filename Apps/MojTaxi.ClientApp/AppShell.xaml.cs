@@ -10,7 +10,7 @@ public partial class AppShell : Shell
         InitializeComponent();
 
         // Registracija svih Shell ruta
-        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+        //Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
         Routing.RegisterRoute(nameof(RideHistoryPage), typeof(RideHistoryPage));
         Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));

@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Storage", "Libraries\MojTaxi.Storage\MojTaxi.Storage.csproj", "{7A461A1C-0478-4B50-8D1E-E1F177F39BCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Settings.Services", "Libraries\MojTaxi.Settings.Services\MojTaxi.Settings.Services.csproj", "{29950351-0ED5-4C09-B8ED-C7A53547FD7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Shared", "Libraries\MojTaxi.Shared\MojTaxi.Shared.csproj", "{29950351-0ED5-4C09-B8ED-C7A53547FD7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojTaxi.Notifications", "Libraries\MojTaxi.Notifications\MojTaxi.Notifications.csproj", "{D6194895-0143-48ED-AB5F-2B069C164B86}"
 EndProject

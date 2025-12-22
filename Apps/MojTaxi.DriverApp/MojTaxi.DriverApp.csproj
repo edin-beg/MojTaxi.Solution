@@ -69,7 +69,7 @@
     <ProjectReference Include="..\..\Libraries\MojTaxi.ApiClient\MojTaxi.ApiClient.csproj" />
     <ProjectReference Include="..\..\Libraries\MojTaxi.Core\MojTaxi.Core.csproj" />
     <ProjectReference Include="..\..\Libraries\MojTaxi.Notifications\MojTaxi.Notifications.csproj" />
-    <ProjectReference Include="..\..\Libraries\MojTaxi.Settings.Services\MojTaxi.Settings.Services.csproj" />
+    <ProjectReference Include="..\..\Libraries\MojTaxi.Shared\MojTaxi.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

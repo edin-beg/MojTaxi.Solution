@@ -1,5 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MojTaxi.ApiClient;
+using MojTaxi.ApiClient.Infrastructure;
+using MojTaxi.Core.Abstractions;
 using MojTaxi.Core.Models;
 using System.Collections.ObjectModel;
 
@@ -34,8 +37,15 @@ public partial class LoginViewModel : ObservableObject
     public bool CanVerifyOtp => !IsBusy && !string.IsNullOrWhiteSpace(OtpCode);
     public bool CanResendOtp => OtpCooldown == 0;
 
-    public LoginViewModel()
+    private readonly IClientsApi _clientsApi;
+    private readonly ApiSettings _apiSettings;
+    private readonly IAuthService _authService; 
+
+    public LoginViewModel(IClientsApi clientsApi, ApiSettings apiSettings, IAuthService authService)
     {
+        _clientsApi = clientsApi;
+        _apiSettings = apiSettings;
+        _authService = authService;
         Countries = new ObservableCollection<CountryInfo>
         {
             new CountryInfo { Name = "Bosna i Hercegovina", Code = "+387", Flag = "🇧🇦" },
@@ -78,37 +88,37 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private async Task VerifyOtp()
     {
-        // ✅ Navigiraj na RegistrationPage
-        await Shell.Current.GoToAsync("//RegistrationPage");
-    /*    if (!CanVerifyOtp) return;
+        if (IsBusy) return;
 
         IsBusy = true;
-        Error = null;
+        Error = string.Empty;
 
         try
         {
-            // TODO: Validacija OTP-a (API)
-            await Task.Delay(500);
-
-            bool otpIsValid = true; // simulacija - zamijeniti realnom provjerom
-
-            if (otpIsValid)
+            await Task.Run(async () =>
             {
-                // ✅ Navigiraj na RegistrationPage
+                await _authService.LoginAsync(
+                    email: "edin.begovic@it-craft.ba",
+                    password: "lokaL993**");
+            });
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
                 await Shell.Current.GoToAsync("//RegistrationPage");
-            }
-            else
-            {
-                Error = "OTP nije ispravan";
-            }
+            });
         }
-        catch
+        catch (InvalidOperationException ex)
         {
-            Error = "Greška pri verifikaciji OTP-a";
+            Error = ex.Message; // "Invalid email/password combination..."
         }
-        */
-
-        IsBusy = false;
+        catch (Exception)
+        {
+            Error = "Unexpected error occurred. Try again.";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     private async Task StartOtpCooldown()

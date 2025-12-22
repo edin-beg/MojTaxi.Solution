@@ -6,8 +6,9 @@ using MojTaxi.ClientApp.ViewModels;
 using MojTaxi.Core;
 using MojTaxi.Core.Abstractions;
 using MojTaxi.Core.Implementations;
+using MojTaxi.Core.Services;
 using MojTaxi.Notifications;
-using MojTaxi.Settings.Services;
+using MojTaxi.Shared.Services;
 using Polly;
 using Polly.Extensions.Http;
 using Refit;
@@ -41,7 +42,7 @@ public static class MauiProgram
         // === API settings ===
         var settings = new ApiSettings
         {
-            BaseUrl    = "https://ssl.irget.se",
+            BaseUrl    = "https://staging.mojtaxi.ba",
             Version    = "V5",
             BuildNumber= "185",
             AppVersion = "1.3.1"
@@ -49,8 +50,6 @@ public static class MauiProgram
         builder.Services.AddSingleton(settings);
 
         // Storage & Core
-        builder.Services.AddSingleton<ISessionStore, SecureStorageSessionStore>();
-        builder.Services.AddMojTaxiCore();
         builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
         builder.Services.AddSingleton<IGpsService, GpsService>();
         builder.Services.AddSingleton<IAppStatusService, AppStatusService>();
@@ -58,6 +57,14 @@ public static class MauiProgram
         builder.Services.AddSingleton<ILocalErrorStore, LocalErrorStore>();
         builder.Services.AddSingleton<IRemoteErrorSender, RemoteErrorSender>();
         builder.Services.AddSingleton<IErrorLogger, ErrorLogger>();
+
+        builder.Services.AddSingleton<IClientSession, ClientSession>();
+
+        builder.Services.AddSingleton<ISessionStore, SecureSessionStore>();
+        builder.Services.AddSingleton<ICredentialStore, SecureCredentialStore>();
+
+        builder.Services.AddSingleton<IAuthService, AuthService>();
+
 
         builder.Services.AddHttpClient<IRemoteErrorSender, RemoteErrorSender>(client =>
         {
@@ -69,7 +76,7 @@ public static class MauiProgram
 
         // Refit API clients
         builder.Services.AddRefitClient<IClientsApi>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri(settings.BaseUrl))
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri(settings.BaseUrl+"/API"))
             .AddPolicyHandler(RetryPolicy());
 
         // Navigation Service

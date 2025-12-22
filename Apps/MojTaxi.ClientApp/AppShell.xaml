@@ -24,4 +24,9 @@
         ContentTemplate="{DataTemplate pages:RegistrationPage}"
         Shell.NavBarIsVisible="False" />
 
+    <ShellContent 
+        Route="MainPage"
+        ContentTemplate="{DataTemplate pages:MainPage}"
+        Shell.NavBarIsVisible="False" />
+
 </Shell>

@@ -7,7 +7,7 @@ using MojTaxi.DriverApp.Pages;
 using MojTaxi.DriverApp.Services;
 using MojTaxi.DriverApp.ViewModels;
 using MojTaxi.Notifications;
-using MojTaxi.Settings.Services;
+using MojTaxi.Shared.Services;
 using Polly;
 using Polly.Extensions.Http;
 using Refit;

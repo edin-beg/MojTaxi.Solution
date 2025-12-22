@@ -47,6 +47,17 @@ public partial class App : Application
         };
     }
 
+    protected override async void OnStart()
+    {
+        var auth = Services.GetRequiredService<IAuthService>();
+
+        if (await auth.TryRestoreAsync())
+            await Shell.Current.GoToAsync("//MainPage");
+        else
+            await Shell.Current.GoToAsync("//LoginPage");
+    }
+
+
     protected override Window CreateWindow(IActivationState? activationState)
     {
         return new Window(new AppShell(Services!));

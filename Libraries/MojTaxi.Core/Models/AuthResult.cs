@@ -7,6 +7,6 @@ public sealed class AuthResult
 {
     public required string SessionId { get; init; }
     public ClientDto? Client { get; init; }
-    public List<VehicleDto>? Vehicles { get; init; }
+    public List<VehicleClientDto>? Vehicles { get; init; }
     public PaymentGatewaySettingsDto? PaymentGatewaySettings { get; init; }
 }

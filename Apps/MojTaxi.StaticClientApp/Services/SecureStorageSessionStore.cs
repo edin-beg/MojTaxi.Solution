@@ -15,4 +15,19 @@ public sealed class SecureStorageSessionStore : ISessionStore
         SecureStorage.Default.Remove(key);
         return Task.CompletedTask;
     }
+
+    public Task SaveClientDataAsync(string clientId, string sessionId, string? deviceId, DateTime? expiresUtc)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<(string? ClientId, string? SessionId, string? DeviceId, DateTime? ExpiresUtc)> LoadClientDataAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task ClearClientDataAsync()
+    {
+        throw new NotImplementedException();
+    }
 }
