@@ -16,6 +16,11 @@ namespace MojTaxi.Core.Abstractions
 
         bool IsLoggedIn { get; }
 
+        /// <summary>
+        /// Fired when login, restore or logout happens
+        /// </summary>
+        event Action? SessionChanged;
+
         void Set(ClientSessionResponse response);
         void Clear();
     }

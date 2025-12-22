@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MojTaxi.ClientApp.Services;
 using MojTaxi.ClientApp.Pages;
+using MojTaxi.ClientApp.Services;
+using MojTaxi.Core.Abstractions;
+using MojTaxi.Core.Implementations;
+using MojTaxi.Core.Services;
 using System.Collections.ObjectModel;
 
 namespace MojTaxi.ClientApp.ViewModels;
@@ -9,12 +12,20 @@ namespace MojTaxi.ClientApp.ViewModels;
 public partial class ProfileViewModel : ObservableObject
 {
     private readonly INavigationService _nav;
+    private readonly IClientSession _clientSession;
+    private readonly IAuthService _authService;
 
-    public ProfileViewModel(INavigationService nav)
+    public ProfileViewModel(INavigationService nav, IClientSession clientSession, IAuthService authService)
     {
         _nav = nav;
-        LoadProfileAsync();
+        _clientSession = clientSession;
+        LoadProfileFromSession();
+
         BuildMenuItems();
+
+        _clientSession.SessionChanged += OnSessionChanged;
+        _authService = authService;
+
     }
 
     [ObservableProperty] private string fullName = string.Empty;
@@ -40,12 +51,6 @@ public partial class ProfileViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task Logout()
-    {
-        await _nav.GoToAsync($"///{nameof(LoginPage)}");
-    }
-
-    [RelayCommand]
     private async Task DeleteAccount()
     {
         var page = Application.Current?.Windows[0].Page;
@@ -64,16 +69,31 @@ public partial class ProfileViewModel : ObservableObject
             await _nav.GoToAsync($"///{nameof(LoginPage)}");
         }
     }
-
-    public Task LoadProfileAsync()
+    private void LoadProfileFromSession()
     {
-        FullName = "Edin Begović";
-        PhoneNumber = "+387 61 000 000";
-        Email = "edin@example.com";
+        var client = _clientSession.Client;
+
+        if (client == null)
+            return;
+
+        FullName = $"{client.FirstName} {client.LastName}".Trim();
+        PhoneNumber = client.Phone ?? string.Empty;
+        Email = client.Email ?? string.Empty;
 
         ProfileImage = ImageSource.FromUri(new Uri("https://images.unsplash.com/photo-1728577740843-5f29c7586afe?auto=format&fit=crop&q=80&w=1160"));
-        return Task.CompletedTask;
+
     }
+    private void OnSessionChanged()
+    {
+        MainThread.BeginInvokeOnMainThread(LoadProfileFromSession);
+    }
+
+    [RelayCommand]
+    private async Task Logout()
+    {
+        await _authService.LogoutAsync();
+    }
+
 }
 
 public record ProfileItem(string Title, string Icon, string Route);

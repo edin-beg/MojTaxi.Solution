@@ -15,6 +15,8 @@ namespace MojTaxi.Core.Implementations
         private string? _sessionId;
         private DateTime? _expires;
 
+        public event Action? SessionChanged;
+
         public ClientDto? Client => _client;
         public IReadOnlyList<VehicleClientDto> Vehicles => _vehicles;
         public PaymentGatewaySettingsDto? PgwSettings => _pgw;
