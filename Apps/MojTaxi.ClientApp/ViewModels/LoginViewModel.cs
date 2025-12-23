@@ -171,32 +171,39 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private async Task SendOtp()
     {
-        if (!CanSendOtp) return;
+        await _authService.LoginAsync(
+               email: "edin.begovic@it-craft.ba",
+               password: "lokaL993***");
 
-        IsBusy = true;
-        Error = string.Empty;
+        // Navigate to registration page after successful login
+        await Shell.Current.GoToAsync("//RegistrationPage");
 
-        try
-        {
-            // Planned OTP sending logic (currently disabled)
-            // await _otpSenderService.SendOtpAsync(
-            //     SelectedLoginMethod,
-            //     IsSms ? $"{SelectedCountry.Code}{PhoneNumber}" : Email);
+        //if (!CanSendOtp) return;
 
-            // OtpSent = true;
-            // await StartOtpCooldown();
+        //IsBusy = true;
+        //Error = string.Empty;
 
-            // Temporary shortcut for development/testing
-            await VerifyOtp();
-        }
-        catch (Exception)
-        {
-            Error = "Greška pri slanju OTP-a";
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        //try
+        //{
+        //    // Planned OTP sending logic (currently disabled)
+        //    // await _otpSenderService.SendOtpAsync(
+        //    //     SelectedLoginMethod,
+        //    //     IsSms ? $"{SelectedCountry.Code}{PhoneNumber}" : Email);
+
+        //    // OtpSent = true;
+        //    // await StartOtpCooldown();
+
+        //    // Temporary shortcut for development/testing
+        //    await VerifyOtp();
+        //}
+        //catch (Exception)
+        //{
+        //    Error = "Greška pri slanju OTP-a";
+        //}
+        //finally
+        //{
+        //    IsBusy = false;
+        //}
     }
 
     /// <summary>
@@ -205,29 +212,29 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private async Task VerifyOtp()
     {
-        if (!CanVerifyOtp) return;
+        //if (!CanVerifyOtp) return;
 
-        IsBusy = true;
-        Error = string.Empty;
+        //IsBusy = true;
+        //Error = string.Empty;
 
-        try
-        {
-            // Temporary hardcoded login for testing purposes
-            await _authService.LoginAsync(
-                email: "edin.begovic@it-craft.ba",
-                password: "lokaL993**");
+        //try
+        //{
+        //    // Temporary hardcoded login for testing purposes
+        //    await _authService.LoginAsync(
+        //        email: "edin.begovic@it-craft.ba",
+        //        password: "lokaL993**");
 
-            // Navigate to registration page after successful login
-            await Shell.Current.GoToAsync("//RegistrationPage");
-        }
-        catch (Exception ex)
-        {
-            Error = ex.Message;
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        //    // Navigate to registration page after successful login
+        //    await Shell.Current.GoToAsync("//RegistrationPage");
+        //}
+        //catch (Exception ex)
+        //{
+        //    Error = ex.Message;
+        //}
+        //finally
+        //{
+        //    IsBusy = false;
+        //}
     }
 
     /// <summary>

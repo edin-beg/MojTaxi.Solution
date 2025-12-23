@@ -45,9 +45,6 @@ public partial class RegistrationViewModel : ObservableObject
     [RelayCommand]
     private async Task Submit()
     {
-        // TODO: Validacija + API poziv
-
-        await _nav.GoToAsync(nameof(MainPage));
-
+        await Shell.Current.GoToAsync("//MainPage");
     }
 }
