@@ -17,23 +17,32 @@ namespace MojTaxi.ClientApp.Services.Auth
 
         public async Task SendAsync(string email, string otp)
         {
-            var message = new MailMessage
+            try
             {
-                From = new MailAddress(Username, "MojTaxi"),
-                Subject = "MojTaxi – kod za prijavu",
-                Body = $"Vaš MojTaxi kod za prijavu je: {otp}",
-                IsBodyHtml = false
-            };
+                var message = new MailMessage
+                {
+                    From = new MailAddress(Username, "MojTaxi"),
+                    Subject = "MojTaxi – kod za prijavu",
+                    Body = $"Vaš MojTaxi kod za prijavu je: {otp}",
+                    IsBodyHtml = false
+                };
 
-            message.To.Add(email);
+                message.To.Add(email);
 
-            using var client = new SmtpClient(SmtpHost, SmtpPort)
+                using var client = new SmtpClient(SmtpHost, SmtpPort)
+                {
+                    Credentials = new NetworkCredential(Username, Password),
+                    EnableSsl = true
+                };
+
+                await client.SendMailAsync(message);
+            }
+            catch (Exception ex)
             {
-                Credentials = new NetworkCredential(Username, Password),
-                EnableSsl = true
-            };
+                // Log exception or handle it as needed
+                throw new InvalidOperationException("Failed to send OTP email.", ex);
 
-            await client.SendMailAsync(message);
+            }
         }
     }
 }

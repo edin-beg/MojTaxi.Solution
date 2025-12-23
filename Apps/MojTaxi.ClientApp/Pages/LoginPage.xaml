@@ -106,7 +106,6 @@
 
             <Button Text="Pošalji OTP"
                     Command="{Binding SendOtpCommand}"
-                    IsEnabled="{Binding CanSendOtp}"
                     Style="{StaticResource TaxiButton}" />
 
             <!-- OTP -->
