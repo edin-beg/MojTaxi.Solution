@@ -21,7 +21,7 @@
         <Setter Property="HeightRequest" Value="48" />
         <Setter Property="FontAttributes" Value="Bold" />
 
-        <!-- Shadow (Glow efekat) -->
+        <!-- Shadow (Glow efekat)  
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow Brush="#FFD700"
@@ -30,6 +30,7 @@
                         Radius="20" />
             </Setter.Value>
         </Setter>
+        -->
 
         <!-- Pressed efekat -->
         <Setter Property="VisualStateManager.VisualStateGroups">

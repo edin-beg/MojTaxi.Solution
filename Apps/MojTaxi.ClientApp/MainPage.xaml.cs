@@ -72,7 +72,8 @@ public partial class MainPage : ContentPage
         {
             if (!hasInternet)
             {
-                StatusText.Text = "Nema internet konekcije";
+                StatusText.Text = "No Internet";
+                StatusIcon.Text = "\uE648"; // wifi_off
                 StatusContainer.IsVisible = true;
                 StatusLine.BackgroundColor = Colors.Red;
                 await StartPulseAnimation();
@@ -91,7 +92,8 @@ public partial class MainPage : ContentPage
         {
             if (!hasGps)
             {
-                StatusText.Text = "GPS je isključen";
+                StatusText.Text = "No GPS";
+                StatusIcon.Text = "\uE0C7"; // location_off
                 StatusContainer.IsVisible = true;
                 StatusLine.BackgroundColor = Colors.Orange;
                 await StartPulseAnimation();
@@ -128,24 +130,37 @@ public partial class MainPage : ContentPage
 
     private void CheckInitialStatus()
     {
+        StatusContainer.IsVisible = true;
+        StatusLine.BackgroundColor = Colors.OrangeRed;
+        StatusIcon.TextColor = Colors.OrangeRed;
+
+        StopPulseAnimation();
+
+        if (!_status.HasInternet && !_status.HasGps)
+        {
+            StatusText.Text = "No GPS & Internet";
+            StatusIcon.Text = "\uE648\uE0C7"; // wifi_off + location_off
+            _ = StartPulseAnimation();
+            return;
+        }
+
         if (!_status.HasInternet)
         {
-            StatusText.Text = "Nema internet konekcije";
-            StatusContainer.IsVisible = true;
-            StatusLine.BackgroundColor = Colors.Red;
+            StatusText.Text = "No Internet";
+            StatusIcon.Text = "\uE648"; // wifi_off
             _ = StartPulseAnimation();
+            return;
         }
-        else if (!_status.HasGps)
+
+        if (!_status.HasGps)
         {
-            StatusText.Text = "GPS je isključen";
-            StatusContainer.IsVisible = true;
-            StatusLine.BackgroundColor = Colors.Orange;
+            StatusText.Text = "No GPS";
+            StatusIcon.Text = "\uE0C7"; // location_off
             _ = StartPulseAnimation();
+            return;
         }
-        else
-        {
-            StatusContainer.IsVisible = false;
-        }
+
+        StatusContainer.IsVisible = false;
     }
 
     // ============================================================

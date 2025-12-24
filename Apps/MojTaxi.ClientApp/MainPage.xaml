@@ -15,7 +15,7 @@
                   IsShowingUser="True"
                   VerticalOptions="Fill"
                   HorizontalOptions="Fill" />
-        
+
         <!-- Gornji buttons overlay -->
         <Grid Padding="12,60,12,0"
               ColumnDefinitions="Auto,*,Auto"
@@ -109,10 +109,20 @@
                      Spacing="4"
                      x:Name="StatusContainer"
                      IsVisible="False">
+            <Label x:Name="StatusIcon" 
+                   FontFamily="MaterialIcons"
+                   Text="&#xE648;"
+                   FontSize="28"
+                   TextColor="OrangeRed"
+                   BackgroundColor="#000000AA"
+                   WidthRequest="36"
+                   HeightRequest="36"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center" />
 
             <Label x:Name="StatusText"
                    FontSize="14"
-                   TextColor="White"
+                   TextColor="OrangeRed"
                    BackgroundColor="#000000AA"
                    Padding="10,4"
                    HorizontalOptions="Center"/>
