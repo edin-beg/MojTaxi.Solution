@@ -14,7 +14,7 @@ public partial class PaymentViewModel : ObservableObject
         {
             new PaymentCard
             {
-                BrandIcon = "\ue8cb", // Visa
+                BrandIcon = "\ue870", // Visa
                 BrandName = "VISA",
                 MaskedNumber = "**** **** **** 4242",
                 CardHolder = "Edin Begović",
@@ -23,7 +23,7 @@ public partial class PaymentViewModel : ObservableObject
             },
             new PaymentCard
             {
-                BrandIcon = "\ue8cc", // MasterCard
+                BrandIcon = "\ue870", // MasterCard
                 BrandName = "MasterCard",
                 MaskedNumber = "**** **** **** 5544",
                 CardHolder = "Edin Begović",

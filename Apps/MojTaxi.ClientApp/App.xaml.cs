@@ -13,50 +13,29 @@ public partial class App : Application
         InitializeComponent();
         Services = provider;
 
-        AppDomain.CurrentDomain.UnhandledException += async (s, e) =>
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
         {
             try
             {
                 var logger = ServiceHelper.Get<IErrorLogger>();
 
                 if (e.ExceptionObject is Exception ex)
-                {
-                    await logger!.LogAsync(ex);
-                }
-                else
-                {
-                    await logger!.LogAsync(new Exception($"Unhandled non-CLR exception: {e.ExceptionObject}"));
-                }
+                    _ = Task.Run(() => logger!.LogAsync(ex));
             }
-            catch
-            {
-            }
+            catch { }
         };
 
-        TaskScheduler.UnobservedTaskException += async (s, e) =>
+        TaskScheduler.UnobservedTaskException += (s, e) =>
         {
             try
             {
                 var logger = ServiceHelper.Get<IErrorLogger>();
-                await logger!.LogAsync(e.Exception);
+                _ = Task.Run(() => logger!.LogAsync(e.Exception));
             }
-            catch
-            {
-
-            }
+            catch { }
         };
+
     }
-
-    protected override async void OnStart()
-    {
-        var auth = Services.GetRequiredService<IAuthService>();
-
-        if (await auth.TryRestoreAsync())
-            await Shell.Current.GoToAsync("//MainPage");
-        else
-            await Shell.Current.GoToAsync("//LoginPage");
-    }
-
 
     protected override Window CreateWindow(IActivationState? activationState)
     {

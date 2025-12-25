@@ -1,10 +1,12 @@
 ﻿namespace MojTaxi.ClientApp;
-
 using Microsoft.Maui;
+using MojTaxi.Core.Abstractions;
 using Pages;
 
 public partial class AppShell : Shell
 {
+    private readonly IAuthService _auth;
+    private bool _initialized;
     public AppShell(IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -25,5 +27,28 @@ public partial class AppShell : Shell
     {
         var route = typeof(T).Name;
         await Shell.Current.GoToAsync(route);
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (_initialized)
+            return;
+
+        _initialized = true;
+
+        try
+        {
+            if (await _auth.TryRestoreAsync())
+                await GoToAsync("//MainPage");
+            else
+                await GoToAsync("//LoginPage");
+        }
+        catch (Exception ex)
+        {
+            // fallback
+            await GoToAsync("//LoginPage");
+        }
     }
 }

@@ -7,13 +7,14 @@
              x:Name="ThisPage"
              Shell.NavBarIsVisible="True"
              BackgroundColor="#0B1120"
-             Title="Placanje">
+             Title="Plaćanje">
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToDefaultTextConverter x:Key="BoolToDefaultTextConverter" />
-            <converters:BoolToDefaultColorConverter x:Key="BoolToDefaultColorConverter" />
             <converters:BoolToDefaultBgConverter x:Key="BoolToDefaultBgConverter" />
             <converters:BoolToDefaultTextColorConverter x:Key="BoolToDefaultTextColorConverter" />
+            <converters:BoolToDefaultIconColorConverter x:Key="BoolToDefaultIconColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -31,72 +32,105 @@
         <CollectionView ItemsSource="{Binding Cards}"
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedCard, Mode=TwoWay}">
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame CornerRadius="12"
-                           Padding="12"
-                           BackgroundColor="#111827"
-                           HasShadow="True"
-                           Margin="0,6">
-                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center">
-                            <!-- Brand icon + name -->
-                            <VerticalStackLayout Grid.Column="0" Spacing="6" HorizontalOptions="Start">
-                                <Label Text="{Binding BrandIcon}"
-                                       FontFamily="MaterialIcons"
-                                       FontSize="28"
-                                       TextColor="#FEF000"
-                                       HorizontalOptions="Center" />
+                    <Border StrokeShape="RoundRectangle 18"
+        BackgroundColor="#111827"
+        Padding="16"
+        Margin="0,10"
+        HeightRequest="190">
+
+                        <Grid RowDefinitions="Auto,*,Auto">
+
+                            <!-- TOP ROW -->
+                            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" VerticalOptions="Center">
+
                                 <Label Text="{Binding BrandName}"
-                                       FontSize="10"
-                                       TextColor="#9CA3AF"
-                                       HorizontalOptions="Center" />
-                            </VerticalStackLayout>
+                   FontSize="16"
+                   TextColor="#9CA3AF" />
 
-                            <!-- Card info -->
-                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <!-- Brand icon -->
+                                <Label Grid.Column="1"
+                   Text="{Binding BrandIcon}"
+                   FontFamily="MaterialIcons"
+                   FontSize="36"
+                   TextColor="#FEF000" />
+                            </Grid>
+
+                            <!-- CARD NUMBER -->
+                            <VerticalStackLayout Grid.Row="1"
+                     Spacing="4"
+                     VerticalOptions="Center">
+
+                                <!-- Maskirani broj -->
                                 <Label Text="{Binding MaskedNumber}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="White"
-                                       FontFamily="Consolas" />
-                                <HorizontalStackLayout Spacing="12">
-                                    <Label Text="{Binding CardHolder}" FontSize="12" TextColor="#9CA3AF"/>
-                                    <Label Text="•" TextColor="#374151" />
-                                    <Label Text="{Binding Expiry}" FontSize="12" TextColor="#9CA3AF"/>
+           FontSize="22"
+           FontAttributes="Bold"
+           FontFamily="Consolas"
+           TextColor="White" />
+
+                                <!-- Card holder -->
+                                <Label Text="{Binding CardHolder}"
+           FontSize="12"
+           TextColor="#9CA3AF"
+           TextTransform="Uppercase" />
+                            </VerticalStackLayout>
+
+                            <!-- BOTTOM ROW -->
+                            <Grid Grid.Row="2" ColumnDefinitions="*,Auto" VerticalOptions="Center">
+
+                                <!-- Expiry -->
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="EXPIRY"
+                       FontSize="10"
+                       TextColor="#6B7280" />
+                                    <Label Text="{Binding Expiry}"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="White" />
+                                </VerticalStackLayout>
+
+                                <!-- ACTION ICONS -->
+                                <HorizontalStackLayout Grid.Column="1"
+                                   Spacing="12"
+                                   HorizontalOptions="End">
+
+                                    <!-- DEFAULT -->
+                                    <Button FontFamily="MaterialIcons"
+                        Text="&#xE838;"
+                        FontSize="22"
+                        BackgroundColor="Transparent"
+                        TextColor="{Binding IsDefault, Converter={StaticResource BoolToDefaultIconColorConverter}}"
+                        Command="{Binding Path=BindingContext.SetDefaultCommand, Source={x:Reference ThisPage}}"
+                        CommandParameter="{Binding .}" />
+
+                                    <!-- DELETE -->
+                                    <Button FontFamily="MaterialIcons"
+                        Text="&#xE872;"
+                        FontSize="22"
+                        BackgroundColor="Transparent"
+                        TextColor="#F87171"
+                        Command="{Binding Path=BindingContext.DeleteCardCommand, Source={x:Reference ThisPage}}"
+                        CommandParameter="{Binding .}" />
                                 </HorizontalStackLayout>
-                            </VerticalStackLayout>
 
-                            <!-- Actions: default / delete -->
-                            <VerticalStackLayout Grid.Column="2" Spacing="6" HorizontalOptions="End" VerticalOptions="Center">
-                                <Button Text="{Binding IsDefault, Converter={StaticResource BoolToDefaultTextConverter}}"
-                                        FontSize="12"
-                                        Padding="6,4"
-                                        CornerRadius="8"
-                                        BackgroundColor="{Binding IsDefault, Converter={StaticResource BoolToDefaultBgConverter}}"
-                                        TextColor="{Binding IsDefault, Converter={StaticResource BoolToDefaultTextColorConverter}}"
-                                        Command="{Binding Path=BindingContext.SetDefaultCommand, Source={x:Reference Name=ThisPage}}"
-                                        CommandParameter="{Binding .}" />
-
-                                <Button Text="Obriši"
-                                        FontSize="12"
-                                        Padding="6,4"
-                                        CornerRadius="8"
-                                        BackgroundColor="#2B2B2B"
-                                        TextColor="White"
-                                        Command="{Binding Path=BindingContext.DeleteCardCommand, Source={x:Reference Name=ThisPage}}"
-                                        CommandParameter="{Binding .}" />
-                            </VerticalStackLayout>
+                            </Grid>
                         </Grid>
-                    </Frame>
+                    </Border>
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
+        <!-- ADD CARD (PRIMARY CTA) -->
         <Button Text="+ Dodaj karticu"
                 Command="{Binding AddPaymentMethodCommand}"
                 BackgroundColor="#FEF000"
                 TextColor="Black"
-                CornerRadius="10"
-                HeightRequest="48"/>
+                CornerRadius="14"
+                HeightRequest="52"
+                FontAttributes="Bold" />
+
     </VerticalStackLayout>
 </ContentPage>
