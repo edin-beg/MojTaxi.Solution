@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MojTaxi.ClientApp.Models;
 using MojTaxi.Core.Models;
 using System.Collections.ObjectModel;
 
@@ -9,78 +10,46 @@ public partial class PaymentViewModel : ObservableObject
 {
     public PaymentViewModel()
     {
-        // Dummy dvije kartice
-        Cards = new ObservableCollection<PaymentCard>
+        Cards = new ObservableCollection<PaymentCardVm>
         {
-            new PaymentCard
+            new PaymentCardVm(new PaymentCard
             {
-                BrandIcon = "\ue870", // Visa
+                BrandIcon = "\ue870",
                 BrandName = "VISA",
                 MaskedNumber = "**** **** **** 4242",
                 CardHolder = "Edin Begović",
                 Expiry = "12/27",
                 IsDefault = true
-            },
-            new PaymentCard
+            }),
+            new PaymentCardVm(new PaymentCard
             {
-                BrandIcon = "\ue870", // MasterCard
+                BrandIcon = "\ue870",
                 BrandName = "MasterCard",
                 MaskedNumber = "**** **** **** 5544",
                 CardHolder = "Edin Begović",
                 Expiry = "09/28",
                 IsDefault = false
-            }
+            })
         };
+
+        SelectedCard = Cards.FirstOrDefault(c => c.IsDefault);
     }
 
-    public ObservableCollection<PaymentCard> Cards { get; }
+    public ObservableCollection<PaymentCardVm> Cards { get; }
 
     [ObservableProperty]
-    private PaymentCard? selectedCard;
+    private PaymentCardVm? selectedCard;
 
     [RelayCommand]
-    private async Task AddPaymentMethod()
+    private void SetDefault(PaymentCardVm card)
     {
-        var page = Application.Current?.Windows[0].Page;
-        if (page != null)
-            await page.DisplayAlertAsync("Dodaj karticu", "Otvara se forma za dodavanje kartice (dummy).", "OK");
-    }
-
-    [RelayCommand]
-    private async Task DeleteCard(PaymentCard card)
-    {
-        if (card is null) return;
-
-        var page = Application.Current?.Windows[0].Page;
-        if (page == null) return;
-
-        bool ok = await page.DisplayAlertAsync(
-            "Brisanje kartice",
-            $"Da li želiš obrisati karticu {card.MaskedNumber} ?",
-            "Da",
-            "Ne");
-
-        if (!ok) return;
-
-        Cards.Remove(card);
-
-        if (card.IsDefault && Cards.Any())
-        {
-            Cards[0].IsDefault = true;
-            SelectedCard = Cards[0];
-        }
-    }
-
-    [RelayCommand]
-    private Task SetDefault(PaymentCard card)
-    {
-        if (card is null) return Task.CompletedTask;
+        if (card == null)
+            return;
 
         foreach (var c in Cards)
             c.IsDefault = false;
 
         card.IsDefault = true;
         SelectedCard = card;
-        return Task.CompletedTask;
     }
 }

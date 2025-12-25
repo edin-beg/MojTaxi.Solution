@@ -7,8 +7,9 @@ public partial class AppShell : Shell
 {
     private readonly IAuthService _auth;
     private bool _initialized;
-    public AppShell(IServiceProvider serviceProvider)
+    public AppShell(IAuthService auth)
     {
+        _auth = auth;
         InitializeComponent();
 
         // Registracija svih Shell ruta

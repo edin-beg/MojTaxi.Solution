@@ -64,8 +64,5 @@
     <ProjectReference Include="..\..\Libraries\MojTaxi.Notifications\MojTaxi.Notifications.csproj" />
     <ProjectReference Include="..\..\Libraries\MojTaxi.Shared\MojTaxi.Shared.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
 
 </Project>

@@ -65,14 +65,14 @@
 
                                 <!-- Maskirani broj -->
                                 <Label Text="{Binding MaskedNumber}"
-           FontSize="22"
+           FontSize="26"
            FontAttributes="Bold"
            FontFamily="Consolas"
            TextColor="White" />
 
                                 <!-- Card holder -->
                                 <Label Text="{Binding CardHolder}"
-           FontSize="12"
+           FontSize="16"
            TextColor="#9CA3AF"
            TextTransform="Uppercase" />
                             </VerticalStackLayout>
