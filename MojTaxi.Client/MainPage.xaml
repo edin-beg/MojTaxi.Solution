@@ -12,7 +12,6 @@
     <!-- MAPA FULLSCREEN -->
     <maps:Map x:Name="mapControl"
               MapType="Street"
-              IsShowingUser="True"
               VerticalOptions="Fill"
               HorizontalOptions="Fill" />
 

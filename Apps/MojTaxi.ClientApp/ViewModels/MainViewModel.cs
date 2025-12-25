@@ -20,47 +20,55 @@ namespace MojTaxi.ClientApp.ViewModels
     {
         private readonly INavigationService _nav;
 
-        [ObservableProperty]
-        private Location currentLocation;
+        [ObservableProperty] private Location currentLocation;
 
         public MainViewModel(INavigationService nav)
         {
             _nav = nav;
         }
 
-
         // ============================================================
-        //  1) LOADING USER LOCATION 
+        //  LOADING USER LOCATION (iOS-safe)
         // ============================================================
         [RelayCommand]
         private async Task LoadLocation()
         {
             try
             {
+                // 1️⃣ Permissions (UI thread – OK)
                 var granted = await EnsureLocationPermission();
                 if (!granted)
-                {
-                    Debug.WriteLine("Lokacija nije dozvoljena.");
                     return;
-                }
 
-                var location = await Geolocation.GetLastKnownLocationAsync();
+                // 2️⃣ Mali grace period za iOS
+                if (DeviceInfo.Platform == DevicePlatform.iOS)
+                    await Task.Delay(300);
 
-                if (location == null)
+                // 3️⃣ Geolocation VAN UI threada
+                var location = await Task.Run(async () =>
                 {
+                    var last = await Geolocation.GetLastKnownLocationAsync();
+                    if (last != null)
+                        return last;
+
                     var request = new GeolocationRequest(
-                        GeolocationAccuracy.High,
+                        GeolocationAccuracy.Medium, // High tek kad treba
                         TimeSpan.FromSeconds(10));
 
-                    location = await Geolocation.GetLocationAsync(request);
-                }
+                    return await Geolocation.GetLocationAsync(request);
+                });
 
+                // 4️⃣ Update UI state
                 if (location != null)
-                    currentLocation = new Location(location.Latitude, location.Longitude);
+                {
+                    CurrentLocation = new Location(
+                        location.Latitude,
+                        location.Longitude);
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Greška u geolokaciji: {ex.Message}");
+                Debug.WriteLine($"Greška u geolokaciji: {ex}");
             }
         }
 
@@ -74,7 +82,6 @@ namespace MojTaxi.ClientApp.ViewModels
             status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             return status == PermissionStatus.Granted;
         }
-
 
         // ============================================================
         //  COMMANDS
@@ -90,9 +97,7 @@ namespace MojTaxi.ClientApp.ViewModels
 
         [RelayCommand]
         private Task Profile()
-        {
-            return _nav.GoToAsync(nameof(ProfilePage));
-        }
+            => _nav.GoToAsync(nameof(ProfilePage));
 
         [RelayCommand]
         private Task TabClicked(string tabName)

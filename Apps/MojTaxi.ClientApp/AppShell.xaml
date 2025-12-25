@@ -6,7 +6,10 @@
     xmlns:pages="clr-namespace:MojTaxi.ClientApp.Pages"
     FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False"
-    Shell.TabBarIsVisible="False">
+    Shell.TabBarIsVisible="False"
+    Shell.BackgroundColor="#000000"
+    Shell.ForegroundColor="#FFFFFF"
+    Shell.TitleColor="#FFFFFF">
 
     <!-- Startne stranice -->
 

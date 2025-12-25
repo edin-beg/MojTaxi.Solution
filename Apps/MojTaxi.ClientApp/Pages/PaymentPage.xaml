@@ -6,7 +6,7 @@
              x:Class="MojTaxi.ClientApp.Pages.PaymentPage"
              x:Name="ThisPage"
              Shell.NavBarIsVisible="True"
-             BackgroundColor="#0B1120"
+             BackgroundColor="Black"
              Title="Plaćanje">
 
     <ContentPage.Resources>

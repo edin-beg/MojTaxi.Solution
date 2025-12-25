@@ -37,9 +37,9 @@ public partial class ProfileViewModel : ObservableObject
 
     private void BuildMenuItems()
     {
+        Items.Add(new ProfileItem("Historijat voznji", "\uE88F", nameof(RideHistoryPage)));
         Items.Add(new ProfileItem("Plaćanje", "\uE8CB", nameof(PaymentPage)));
         Items.Add(new ProfileItem("Valuta i jezik", "\uE894", nameof(SettingsPage)));
-        Items.Add(new ProfileItem("Postavke", "\uE8B8", nameof(SettingsPage)));
         Items.Add(new ProfileItem("Podrška", "\uE8F6", nameof(LegalPage)));
         Items.Add(new ProfileItem("Pravne informacije", "\uE88F", nameof(LegalPage)));
     }
