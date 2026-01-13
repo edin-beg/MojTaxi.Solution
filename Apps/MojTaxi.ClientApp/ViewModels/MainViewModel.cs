@@ -97,7 +97,7 @@ namespace MojTaxi.ClientApp.ViewModels
 
         [RelayCommand]
         private Task Profile()
-            => _nav.GoToAsync(nameof(ProfilePage));
+            => _nav.GoToAsync(nameof(ProfilePage), animate: true);
 
         [RelayCommand]
         private Task TabClicked(string tabName)

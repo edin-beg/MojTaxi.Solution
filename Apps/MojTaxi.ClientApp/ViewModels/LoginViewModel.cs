@@ -176,7 +176,7 @@ public partial class LoginViewModel : ObservableObject
                password: "lokaL993***");
 
         // Navigate to registration page after successful login
-        await Shell.Current.GoToAsync("//RegistrationPage");
+        await Shell.Current.GoToAsync("//RegistrationPage", animate: true);
 
         //if (!CanSendOtp) return;
 

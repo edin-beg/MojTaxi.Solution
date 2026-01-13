@@ -47,7 +47,7 @@ public partial class ProfileViewModel : ObservableObject
     public async Task NavigateTo(ProfileItem item)
     {
         if (item is null) return;
-        await _nav.GoToAsync(item.Route);
+        await _nav.GoToAsync(item.Route, animate: true);
     }
 
     [RelayCommand]
@@ -66,7 +66,7 @@ public partial class ProfileViewModel : ObservableObject
         {
             // api call kasnije
             await page.DisplayAlertAsync("Obrisano", "Profil je obrisan.", "OK");
-            await _nav.GoToAsync($"///{nameof(LoginPage)}");
+            await _nav.GoToAsync($"///{nameof(LoginPage)}", animate: true);
         }
     }
     private void LoadProfileFromSession()

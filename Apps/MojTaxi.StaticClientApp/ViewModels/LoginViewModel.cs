@@ -79,7 +79,7 @@ public partial class LoginViewModel : ObservableObject
     private async Task VerifyOtp()
     {
         // ✅ Navigiraj na RegistrationPage
-        await Shell.Current.GoToAsync("//RegistrationPage");
+        await Shell.Current.GoToAsync("//RegistrationPage", animate: true);
     /*    if (!CanVerifyOtp) return;
 
         IsBusy = true;

@@ -51,6 +51,8 @@ public static class MauiProgram
         builder.Services.AddSingleton(settings);
 
         // Storage & Core
+        builder.Services.AddSingleton<BusyService>();
+
         builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
         builder.Services.AddSingleton<IGpsService, GpsService>();
         builder.Services.AddSingleton<IAppStatusService, AppStatusService>();

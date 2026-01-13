@@ -23,11 +23,10 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
     }
 
-    //Čista Shell navigacija po ruti
     public async Task GoToPageAsync<T>() where T : Page
     {
         var route = typeof(T).Name;
-        await Shell.Current.GoToAsync(route);
+        await Shell.Current.GoToAsync(route, animate: true);
     }
 
     protected override async void OnAppearing()
@@ -42,14 +41,14 @@ public partial class AppShell : Shell
         try
         {
             if (await _auth.TryRestoreAsync())
-                await GoToAsync("//MainPage");
+                await GoToAsync("//MainPage", animate:true);
             else
-                await GoToAsync("//LoginPage");
+                await GoToAsync("//LoginPage", animate: true);
         }
         catch (Exception ex)
         {
             // fallback
-            await GoToAsync("//LoginPage");
+            await GoToAsync("//LoginPage", animate: true);
         }
     }
 }

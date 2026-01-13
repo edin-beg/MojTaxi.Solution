@@ -45,6 +45,6 @@ public partial class RegistrationViewModel : ObservableObject
     [RelayCommand]
     private async Task Submit()
     {
-        await Shell.Current.GoToAsync("//MainPage");
+        await Shell.Current.GoToAsync("//MainPage", animate: true);
     }
 }

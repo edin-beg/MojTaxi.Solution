@@ -18,6 +18,6 @@ public partial class LandingPage : ContentPage
         base.OnAppearing();
 
         await Task.Delay(8000); // 2s splash
-        await Shell.Current.GoToAsync("//LoginPage");
+        await Shell.Current.GoToAsync("//LoginPage", animate: true);
     }
 }

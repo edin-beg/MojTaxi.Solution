@@ -137,6 +137,6 @@ public sealed class AuthService : IAuthService
         await _credentialStore.ClearAsync();
         _clientSession.Clear();
 
-        await Shell.Current.GoToAsync("//LoginPage");
+        await Shell.Current.GoToAsync("//LoginPage", animate: true);
     }
 }

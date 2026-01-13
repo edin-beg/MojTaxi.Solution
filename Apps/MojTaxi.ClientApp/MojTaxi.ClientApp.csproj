@@ -64,5 +64,13 @@
     <ProjectReference Include="..\..\Libraries\MojTaxi.Notifications\MojTaxi.Notifications.csproj" />
     <ProjectReference Include="..\..\Libraries\MojTaxi.Shared\MojTaxi.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <MauiXaml Update="Controls\BusyOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\RootPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
 
 </Project>

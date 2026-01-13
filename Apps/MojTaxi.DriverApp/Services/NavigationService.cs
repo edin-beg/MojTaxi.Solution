@@ -37,7 +37,7 @@ namespace MojTaxi.DriverApp.Services
         public async Task GoToRootAsync()
         {
             if (Shell.Current == null) return;
-            await Shell.Current.GoToAsync("//");
+            await Shell.Current.GoToAsync("//", animate: true);
         }
     }
 }

@@ -12,6 +12,6 @@ public partial class AppShell : Shell
     public async Task GoToPageAsync<T>() where T : Page
     {
         var route = typeof(T).Name;
-        await Shell.Current.GoToAsync(route);
+        await Shell.Current.GoToAsync(route, animate: true);
     }
 }

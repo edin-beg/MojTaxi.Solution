@@ -49,7 +49,6 @@ public static class MauiProgram
 
         // Storage & Core
         builder.Services.AddSingleton<ISessionStore, SecureStorageSessionStore>();
-        builder.Services.AddMojTaxiCore();
         builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
         builder.Services.AddSingleton<IGpsService, GpsService>();
         builder.Services.AddSingleton<IAppStatusService, AppStatusService>();
