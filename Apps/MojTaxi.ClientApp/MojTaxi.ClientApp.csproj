@@ -48,6 +48,7 @@
 
   <!-- NuGet paketi -->
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />    
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.11" />
@@ -69,6 +70,9 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Pages\RootPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Popups\LoadingPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>

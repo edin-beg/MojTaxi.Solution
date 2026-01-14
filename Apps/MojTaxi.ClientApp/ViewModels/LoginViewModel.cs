@@ -171,11 +171,14 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private async Task SendOtp()
     {
+        IsBusy = true;
+
         await _authService.LoginAsync(
                email: "edin.begovic@it-craft.ba",
                password: "lokaL993***");
 
         // Navigate to registration page after successful login
+        IsBusy = false;
         await Shell.Current.GoToAsync("//RegistrationPage", animate: true);
 
         //if (!CanSendOtp) return;

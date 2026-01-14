@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MojTaxi.ClientApp"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              x:Class="MojTaxi.ClientApp.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -10,5 +11,20 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        <ControlTemplate x:Key="BusyPageTemplate">
+            <Grid>
+                <ContentPresenter />
+
+                <Grid BackgroundColor="#80000000"
+              IsVisible="{TemplateBinding BindingContext.IsBusy}">
+                    <skia:SKLottieView
+              Source="taxi_loading.json"                        
+              HeightRequest="120"
+              WidthRequest="240"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"/>
+                </Grid>
+            </Grid>
+        </ControlTemplate>
     </Application.Resources>
 </Application>

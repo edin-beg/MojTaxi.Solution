@@ -13,14 +13,15 @@
 
     <!-- Startne stranice -->
 
-    <ShellContent 
-        Route="MainPage"
-        ContentTemplate="{DataTemplate pages:MainPage}"
-        Shell.NavBarIsVisible="False" />
     
     <ShellContent 
         Route="LandingPage"
         ContentTemplate="{DataTemplate pages:LandingPage}"
+        Shell.NavBarIsVisible="False" />
+    
+    <ShellContent 
+        Route="MainPage"
+        ContentTemplate="{DataTemplate pages:MainPage}"
         Shell.NavBarIsVisible="False" />
 
     <ShellContent 

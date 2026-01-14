@@ -1,4 +1,5 @@
-﻿using MojTaxi.ApiClient;
+﻿using CommunityToolkit.Maui;
+using MojTaxi.ApiClient;
 using MojTaxi.ApiClient.Infrastructure;
 using MojTaxi.ClientApp.Pages;
 using MojTaxi.ClientApp.Services;
@@ -30,6 +31,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .UseMauiMaps()
             .UseSkiaSharp()
             .ConfigureFonts(f =>

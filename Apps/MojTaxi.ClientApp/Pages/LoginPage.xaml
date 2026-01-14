@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MojTaxi.ClientApp.Pages.LoginPage"
     BackgroundColor="Black"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="False"
+    ControlTemplate="{StaticResource BusyPageTemplate}">
 
     <ScrollView BackgroundColor="#000000">
         <VerticalStackLayout
@@ -129,11 +130,7 @@
                         BackgroundColor="Transparent"
                         TextColor="#FFD700"/>
             </VerticalStackLayout>
-
-            <ActivityIndicator IsVisible="{Binding IsBusy}"
-                               IsRunning="{Binding IsBusy}"
-                               Color="#FFD700"/>
-
+            
             <Label Text="{Binding Error}"
                    TextColor="Red"
                    HorizontalOptions="Center"/>
