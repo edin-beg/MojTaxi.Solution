@@ -11,20 +11,5 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        <ControlTemplate x:Key="BusyPageTemplate">
-            <Grid>
-                <ContentPresenter />
-
-                <Grid BackgroundColor="#80000000"
-              IsVisible="{TemplateBinding BindingContext.IsBusy}">
-                    <skia:SKLottieView
-              Source="taxi_loading.json"                        
-              HeightRequest="120"
-              WidthRequest="240"
-              HorizontalOptions="Center"
-              VerticalOptions="Center"/>
-                </Grid>
-            </Grid>
-        </ControlTemplate>
     </Application.Resources>
 </Application>

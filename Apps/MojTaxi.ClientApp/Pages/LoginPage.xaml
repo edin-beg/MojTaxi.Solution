@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MojTaxi.ClientApp.Pages.LoginPage"
     BackgroundColor="Black"
-    Shell.NavBarIsVisible="False"
-    ControlTemplate="{StaticResource BusyPageTemplate}">
+    Shell.NavBarIsVisible="False">
 
     <ScrollView BackgroundColor="#000000">
         <VerticalStackLayout
@@ -22,88 +21,110 @@
 
             <!-- LOGIN MODE -->
             <Border BackgroundColor="#1A1A1A"
-        StrokeShape="RoundRectangle 14"
-        Padding="3"
-        HeightRequest="50">
+                    StrokeShape="RoundRectangle 14"
+                    Padding="3"
+                    HeightRequest="50">
 
                 <Grid ColumnDefinitions="*,*">
 
                     <!-- SMS -->
                     <Border Grid.Column="0"
-                StrokeShape="RoundRectangle 12"
-                BackgroundColor="Transparent">
-
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="Transparent">
                         <Border.Triggers>
                             <DataTrigger TargetType="Border"
-                             Binding="{Binding IsSms}"
-                             Value="True">
-                                <Setter Property="BackgroundColor" Value="#FFD700"/>
+                                         Binding="{Binding IsSms}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="#FEF000"/>
                             </DataTrigger>
                         </Border.Triggers>
 
                         <Button Text="SMS"
-                    Command="{Binding SetSmsCommand}"
-                    BackgroundColor="Transparent"
-                    TextColor="Black"
-                    FontAttributes="Bold"/>
+                                Command="{Binding SetSmsCommand}"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                TextColor="White">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsSms}"
+                                             Value="True">
+                                    <Setter Property="TextColor" Value="Black"/>
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
                     </Border>
 
                     <!-- EMAIL -->
                     <Border Grid.Column="1"
-                StrokeShape="RoundRectangle 12"
-                BackgroundColor="Transparent">
-
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="Transparent">
                         <Border.Triggers>
                             <DataTrigger TargetType="Border"
-                             Binding="{Binding IsEmail}"
-                             Value="True">
-                                <Setter Property="BackgroundColor" Value="#FFD700"/>
+                                         Binding="{Binding IsEmail}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="#FEF000"/>
                             </DataTrigger>
                         </Border.Triggers>
 
                         <Button Text="Email"
-                    Command="{Binding SetEmailCommand}"
-                    BackgroundColor="Transparent"
-                    TextColor="Black"
-                    FontAttributes="Bold"/>
+                                Command="{Binding SetEmailCommand}"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                TextColor="White">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsEmail}"
+                                             Value="True">
+                                    <Setter Property="TextColor" Value="Black"/>
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
                     </Border>
 
                 </Grid>
             </Border>
 
-            <!-- SMS -->
-            <VerticalStackLayout IsVisible="{Binding IsSms}">
-                <Picker Title="Odaberi državu"
-                        ItemsSource="{Binding Countries}"
-                        SelectedItem="{Binding SelectedCountry}"
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        BackgroundColor="#1A1A1A"
-                        TextColor="White"/>
+            <!-- INPUTS CONTAINER (fiksna visina da se logo ne pomjera) -->
+            <!-- Podesi HeightRequest po potrebi (npr. 140/150) -->
+            <Grid HeightRequest="140">
+                <!-- SMS -->
+                <VerticalStackLayout IsVisible="{Binding IsSms}"
+                                     VerticalOptions="Center"
+                                     Spacing="12">
+                    <Picker Title="Odaberi državu"
+                            ItemsSource="{Binding Countries}"
+                            SelectedItem="{Binding SelectedCountry}"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            BackgroundColor="#1A1A1A"
+                            TextColor="White"/>
 
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
-                    <Entry Text="{Binding SelectedCountry.Code}"
-                           IsEnabled="False"
-                           WidthRequest="80"
-                           BackgroundColor="#1A1A1A"
-                           TextColor="White"
-                           HorizontalTextAlignment="Center"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Entry Text="{Binding SelectedCountry.Code}"
+                               IsEnabled="False"
+                               WidthRequest="80"
+                               BackgroundColor="#1A1A1A"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center"/>
 
-                    <Entry Grid.Column="1"
-                           Placeholder="Broj telefona"
-                           Text="{Binding PhoneNumber}"
-                           Keyboard="Telephone"
+                        <Entry Grid.Column="1"
+                               Placeholder="Broj telefona"
+                               Text="{Binding PhoneNumber}"
+                               Keyboard="Telephone"
+                               BackgroundColor="#1A1A1A"
+                               TextColor="White"/>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!-- EMAIL -->
+                <VerticalStackLayout IsVisible="{Binding IsEmail}"
+                                     VerticalOptions="Center">
+                    <Entry Placeholder="Email adresa"
+                           Text="{Binding Email}"
+                           Keyboard="Email"
                            BackgroundColor="#1A1A1A"
                            TextColor="White"/>
-                </Grid>
-            </VerticalStackLayout>
-
-            <!-- EMAIL -->
-            <Entry IsVisible="{Binding IsEmail}"
-                   Placeholder="Email adresa"
-                   Text="{Binding Email}"
-                   Keyboard="Email"
-                   BackgroundColor="#1A1A1A"
-                   TextColor="White"/>
+                </VerticalStackLayout>
+            </Grid>
 
             <Button Text="Pošalji OTP"
                     Command="{Binding SendOtpCommand}"
@@ -128,9 +149,9 @@
                         Command="{Binding SendOtpCommand}"
                         IsEnabled="{Binding CanResendOtp}"
                         BackgroundColor="Transparent"
-                        TextColor="#FFD700"/>
+                        TextColor="#FEF000"/>
             </VerticalStackLayout>
-            
+
             <Label Text="{Binding Error}"
                    TextColor="Red"
                    HorizontalOptions="Center"/>

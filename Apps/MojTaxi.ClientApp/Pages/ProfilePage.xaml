@@ -10,9 +10,9 @@
         <VerticalStackLayout Spacing="15" Padding="25,35">
 
             <!-- Profilna slika -->
-            <Frame WidthRequest="120"
-                   HeightRequest="120"
-                   CornerRadius="60"
+            <Frame WidthRequest="100"
+                   HeightRequest="100"
+                   CornerRadius="50"
                    HorizontalOptions="Center"
                    Padding="0"
                    BackgroundColor="Black">
@@ -20,7 +20,7 @@
             </Frame>
 
             <Label Text="{Binding FullName}"
-                   FontSize="22"
+                   FontSize="18"
                    FontAttributes="Bold"
                    TextColor="White"
                    HorizontalOptions="Center"/>
@@ -44,7 +44,7 @@
 
                         <Grid x:Name="ItemRoot"
                               ColumnDefinitions="Auto,*,Auto"
-                              HeightRequest="60"
+                              HeightRequest="50"
                               ColumnSpacing="10"
                               Padding="10"
                               BackgroundColor="Transparent">
@@ -53,7 +53,7 @@
                                    Grid.Column="0"
                                    FontFamily="MaterialIcons"
                                    Text="{Binding Icon}"
-                                   FontSize="28"
+                                   FontSize="22"
                                    TextColor="White"
                                    VerticalOptions="Center"/>
 
@@ -68,7 +68,7 @@
                                    Grid.Column="2"
                                    FontFamily="MaterialIcons"
                                    Text="&#xE5CC;"
-                                   FontSize="26"
+                                   FontSize="20"
                                    TextColor="#8A99B2"
                                    VerticalOptions="Center"/>
                         </Grid>

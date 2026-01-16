@@ -29,26 +29,26 @@ public partial class AppShell : Shell
         await Shell.Current.GoToAsync(route, animate: true);
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
+    //protected override async void OnAppearing()
+    //{
+    //    base.OnAppearing();
 
-        if (_initialized)
-            return;
+    //    if (_initialized)
+    //        return;
 
-        _initialized = true;
+    //    _initialized = true;
 
-        try
-        {
-            if (await _auth.TryRestoreAsync())
-                await GoToAsync("//MainPage", animate:true);
-            else
-                await GoToAsync("//LoginPage", animate: true);
-        }
-        catch (Exception ex)
-        {
-            // fallback
-            await GoToAsync("//LoginPage", animate: true);
-        }
-    }
+    //    try
+    //    {
+    //        if (await _auth.TryRestoreAsync())
+    //            await GoToAsync("//MainPage", animate:true);
+    //        else
+    //            await GoToAsync("//LoginPage", animate: true);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // fallback
+    //        await GoToAsync("//LoginPage", animate: true);
+    //    }
+    //}
 }
