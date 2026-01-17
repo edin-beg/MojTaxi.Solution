@@ -6,134 +6,136 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="Black"
              SafeAreaEdges="SoftInput">
+    <Grid VerticalOptions="Fill"
+          HorizontalOptions="Fill">
+        <Grid Padding="5,0,5,0">
 
-    <Grid Padding="5,0,5,0">
+            <!-- MAPA FULLSCREEN -->
+            <maps:Map x:Name="mapControl"
+                      MapType="Street"
+                      VerticalOptions="Fill"
+                      HorizontalOptions="Fill" />
 
-        <!-- MAPA FULLSCREEN -->
-        <maps:Map x:Name="mapControl"
-                  MapType="Street"
-                  VerticalOptions="Fill"
-                  HorizontalOptions="Fill" />
-
-        <!-- Gornji buttons overlay -->
-        <Grid Padding="12,60,12,0"
-              ColumnDefinitions="Auto,*,Auto"
-              HorizontalOptions="Fill"
-              VerticalOptions="Start">
-
-            <Button Grid.Column="0"
-                    Style="{StaticResource TaxiButton}"
-                    FontFamily="MaterialIcons"
-                    FontSize="26"
-                    Text="&#xE0B0;"
-                    WidthRequest="52"
-                    HeightRequest="52"
-                    CornerRadius="26"
-                    Command="{Binding CallTaxiCommand}" />
-
-            <Button Grid.Column="2"
-                    Style="{StaticResource TaxiButton}"
-                    FontFamily="MaterialIcons"
-                    FontSize="26"
-                    Text="&#xE7FD;"
-                    WidthRequest="52"
-                    HeightRequest="52"
-                    CornerRadius="26"
-                    Command="{Binding ProfileCommand}" />
-        </Grid>
-
-        <!-- Donji buttons overlay -->
-        <Grid Padding="12,0,12,60"
-              ColumnDefinitions="60,*,*,*,*"
-              ColumnSpacing="12"
-              HorizontalOptions="Fill"
-              VerticalOptions="End">
-
-            <Button x:Name="HamburgerBtn"
-                    Grid.Column="0"
-                    Text="|||"
-                    FontSize="26"
-                    WidthRequest="60"
-                    HeightRequest="60"
-                    CornerRadius="30"
-                    Style="{StaticResource TaxiButton}"
-                    TextColor="Black"
-                    Clicked="ToggleMenu" />
-
-            <Grid Grid.Column="1"
-                  Grid.ColumnSpan="4"
-                  ColumnDefinitions="*,*,*,*"
-                  ColumnSpacing="12"
-                  x:Name="TabContainer"
-                  IsVisible="False">
+            <!-- Gornji buttons overlay -->
+            <Grid Padding="12,60,12,0"
+                  ColumnDefinitions="Auto,*,Auto"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Start">
 
                 <Button Grid.Column="0"
                         Style="{StaticResource TaxiButton}"
                         FontFamily="MaterialIcons"
-                        FontSize="24"
-                        Text="&#xEB41;"
-                        Command="{Binding TabClickedCommand}"
-                        CommandParameter="Djeca" />
-
-                <Button Grid.Column="1"
-                        Style="{StaticResource TaxiButton}"
-                        FontFamily="MaterialIcons"
-                        FontSize="24"
-                        Text="&#xE91D;"
-                        Command="{Binding TabClickedCommand}"
-                        CommandParameter="Ljubimci" />
+                        FontSize="26"
+                        Text="&#xE0B0;"
+                        WidthRequest="52"
+                        HeightRequest="52"
+                        CornerRadius="26"
+                        Command="{Binding CallTaxiCommand}" />
 
                 <Button Grid.Column="2"
                         Style="{StaticResource TaxiButton}"
                         FontFamily="MaterialIcons"
-                        FontSize="24"
-                        Text="&#xE914;"
-                        Command="{Binding TabClickedCommand}"
-                        CommandParameter="Invalidi" />
-
-                <Button Grid.Column="3"
-                        Style="{StaticResource TaxiButton}"
-                        FontFamily="MaterialIcons"
-                        FontSize="24"
-                        Text="&#xE540;"
-                        Command="{Binding TabClickedCommand}"
-                        CommandParameter="Alkohol" />
+                        FontSize="26"
+                        Text="&#xE7FD;"
+                        WidthRequest="52"
+                        HeightRequest="52"
+                        CornerRadius="26"
+                        Command="{Binding ProfileCommand}" />
             </Grid>
+
+            <!-- Donji buttons overlay -->
+            <Grid Padding="12,0,12,60"
+                  ColumnDefinitions="60,*,*,*,*"
+                  ColumnSpacing="12"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="End">
+
+                <Button x:Name="HamburgerBtn"
+                        Grid.Column="0"
+                        Text="|||"
+                        FontSize="26"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        CornerRadius="30"
+                        Style="{StaticResource TaxiButton}"
+                        TextColor="Black"
+                        Clicked="ToggleMenu" />
+
+                <Grid Grid.Column="1"
+                      Grid.ColumnSpan="4"
+                      ColumnDefinitions="*,*,*,*"
+                      ColumnSpacing="12"
+                      x:Name="TabContainer"
+                      IsVisible="False">
+
+                    <Button Grid.Column="0"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xEB41;"
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Djeca" />
+
+                    <Button Grid.Column="1"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xE91D;"
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Ljubimci" />
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xE914;"
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Invalidi" />
+
+                    <Button Grid.Column="3"
+                            Style="{StaticResource TaxiButton}"
+                            FontFamily="MaterialIcons"
+                            FontSize="24"
+                            Text="&#xE540;"
+                            Command="{Binding TabClickedCommand}"
+                            CommandParameter="Alkohol" />
+                </Grid>
+            </Grid>
+
+            <!-- STATUS LINE -->
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Start"
+                         Margin="0,20,0,0"
+                         Spacing="4"
+                         x:Name="StatusContainer"
+                         IsVisible="False">
+                <Label x:Name="StatusIcon" 
+                       FontFamily="MaterialIcons"
+                       Text="&#xE648;"
+                       FontSize="28"
+                       TextColor="OrangeRed"
+                       BackgroundColor="#000000AA"
+                       WidthRequest="36"
+                       HeightRequest="36"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
+
+                <Label x:Name="StatusText"
+                       FontSize="14"
+                       TextColor="OrangeRed"
+                       BackgroundColor="#000000AA"
+                       Padding="10,4"
+                       HorizontalOptions="Center"/>
+
+                <BoxView x:Name="StatusLine"
+                         HeightRequest="4"
+                         WidthRequest="200"
+                         HorizontalOptions="Center"
+                         CornerRadius="2"
+                         BackgroundColor="#FFD600"
+                         IsVisible="True" />
+            </StackLayout>
+
         </Grid>
-
-        <!-- STATUS LINE -->
-        <StackLayout HorizontalOptions="Center"
-                     VerticalOptions="Start"
-                     Margin="0,20,0,0"
-                     Spacing="4"
-                     x:Name="StatusContainer"
-                     IsVisible="False">
-            <Label x:Name="StatusIcon" 
-                   FontFamily="MaterialIcons"
-                   Text="&#xE648;"
-                   FontSize="28"
-                   TextColor="OrangeRed"
-                   BackgroundColor="#000000AA"
-                   WidthRequest="36"
-                   HeightRequest="36"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center" />
-
-            <Label x:Name="StatusText"
-                   FontSize="14"
-                   TextColor="OrangeRed"
-                   BackgroundColor="#000000AA"
-                   Padding="10,4"
-                   HorizontalOptions="Center"/>
-
-            <BoxView x:Name="StatusLine"
-                     HeightRequest="4"
-                     WidthRequest="200"
-                     HorizontalOptions="Center"
-                     CornerRadius="2"
-                     BackgroundColor="#FFD600"
-                     IsVisible="True" />
-        </StackLayout>
-
     </Grid>
 </ContentPage>

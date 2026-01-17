@@ -17,27 +17,41 @@ public partial class LandingPage : ContentPage
         InitializeComponent();
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
+
         if (_initialized)
             return;
 
         _initialized = true;
+        _ = InitAndNavigateAsync();
+    }
 
+    private async Task InitAndNavigateAsync()
+    {
         try
         {
-            if (await _auth.TryRestoreAsync())
-                await Shell.Current.GoToAsync("//MainPage", animate: true);
-            else
-                await Shell.Current.GoToAsync("//LoginPage", animate: true);
+            var authTask = _auth.TryRestoreAsync();
+            var splashDelayTask = Task.Delay(5000);
+
+            await Task.WhenAll(authTask, splashDelayTask);
+
+            var ok = authTask.Result;
+
+            await MainThread.InvokeOnMainThreadAsync(() =>
+                Shell.Current.GoToAsync(
+                    ok ? "//MainPage" : "//LoginPage",
+                    animate: true
+                )
+            );
         }
-        catch (Exception ex)
+        catch
         {
-            // fallback
-            await Shell.Current.GoToAsync("//LoginPage", animate: true);
+            await MainThread.InvokeOnMainThreadAsync(() =>
+                Shell.Current.GoToAsync("//LoginPage", animate: true)
+            );
         }
-        // await Task.Delay(8000); 
-        // await Shell.Current.GoToAsync("//LoginPage");
     }
+
 }

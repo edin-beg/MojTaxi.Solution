@@ -5,11 +5,8 @@ using Pages;
 
 public partial class AppShell : Shell
 {
-    private readonly IAuthService _auth;
-    private bool _initialized;
-    public AppShell(IAuthService auth)
+    public AppShell()
     {
-        _auth = auth;
         InitializeComponent();
 
         // Registracija svih Shell ruta
@@ -28,27 +25,4 @@ public partial class AppShell : Shell
         var route = typeof(T).Name;
         await Shell.Current.GoToAsync(route, animate: true);
     }
-
-    //protected override async void OnAppearing()
-    //{
-    //    base.OnAppearing();
-
-    //    if (_initialized)
-    //        return;
-
-    //    _initialized = true;
-
-    //    try
-    //    {
-    //        if (await _auth.TryRestoreAsync())
-    //            await GoToAsync("//MainPage", animate:true);
-    //        else
-    //            await GoToAsync("//LoginPage", animate: true);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        // fallback
-    //        await GoToAsync("//LoginPage", animate: true);
-    //    }
-    //}
 }

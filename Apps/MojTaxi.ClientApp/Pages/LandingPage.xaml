@@ -6,14 +6,17 @@
     xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
     x:Class="MojTaxi.ClientApp.Pages.LandingPage"
     Shell.NavBarIsVisible="False"
-    BackgroundColor="Black">
+    BackgroundColor="Black"
+    SafeAreaEdges="SoftInput">
 
-    <Grid>
-        <!--Pozadina (univerzalni PNG)-->
+    <Grid
+    VerticalOptions="Fill"
+    HorizontalOptions="Fill">
+        <!--Pozadina (univerzalni PNG) 
         <Image Source="mt1440x3200.png"
                Aspect="Center"
                HorizontalOptions="Center"
-               VerticalOptions="Center" />
+               VerticalOptions="Center" /> -->
 
         <!-- blagi overlay za kontrast teksta -->
         <BoxView Opacity="0.2"
@@ -23,7 +26,7 @@
         <Grid>
             <skia:SKLottieView
                     Source="mtLPFull.json"
-                    RepeatCount="0"
+                    RepeatCount="20"
                     HeightRequest="900"
                     WidthRequest="400"
                     HorizontalOptions="Center" />
